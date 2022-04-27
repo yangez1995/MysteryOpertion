@@ -1,13 +1,13 @@
-﻿using AgeOfMagic.Roles.CrewmateRoles;
-using AgeOfMagic.Roles.ImpostorRoles;
+﻿using AgeOfMagic.Entities.Roles.CrewmateRoles;
+using AgeOfMagic.Entities.Roles.ImpostorRoles;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AgeOfMagic.Roles
+namespace AgeOfMagic.Entities.Roles
 {
     public static class RoleFactory {
-        public static Role produce(RoleType roleType)
+        public static Role Produce(RoleType roleType)
         {
             switch (roleType)
             {

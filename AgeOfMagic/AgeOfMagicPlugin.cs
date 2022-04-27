@@ -27,19 +27,6 @@ public partial class AgeOfMagicPlugin : BasePlugin
         Debug.Log("Load====================================================");
         Harmony.PatchAll();
     }
-
-
-
-    //[HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.FixedUpdate))]
-    //public static class ExamplePatch
-    //{
-    //    public static void Postfix(PlayerControl __instance)
-    //    {
-    //        __instance.nameText.text = "yang";
-    //    }
-    //}
-
-
 }
 
 // Debugging tools

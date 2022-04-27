@@ -1,16 +1,14 @@
-﻿using AgeOfMagic.Roles;
-using AgeOfMagic.Roles.CrewmateRoles;
-using AgeOfMagic.Roles.ImpostorRoles;
+﻿using AgeOfMagic.Entities;
+using AgeOfMagic.Entities.Roles;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace AgeOfMagic.Patches
 {
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
-    class RoleManagerSelectRolesPatch
+    public static class RoleManagerSelectRolesPatch
     {
         public static Random random = new Random((int)DateTime.Now.Ticks);
 
@@ -35,26 +33,27 @@ namespace AgeOfMagic.Patches
                 var player = waitAssignCrewmateList[index];
                 waitAssignCrewmateList.RemoveAt(index);
 
-                player.mainRole = RoleFactory.produce(roleType);
+                player.mainRole = RoleFactory.Produce(roleType);
             }
 
             //设置未分配船员为白板
             foreach (var player in waitAssignCrewmateList)
             {
-                player.mainRole = RoleFactory.produce(RoleType.Crewmate);
+                player.mainRole = RoleFactory.Produce(RoleType.Crewmate);
             }
 
             //设置未分配内鬼为白板
             foreach (var player in waitAssignImpostorList)
             {
-                player.mainRole = RoleFactory.produce(RoleType.Impostor);
+                player.mainRole = RoleFactory.Produce(RoleType.Impostor);
             }
         }
 
         private static RolePool loadRolePool()
         {
             RolePool pool = new RolePool();
-            pool.crewmateEnsuredPool.Add(RoleType.Impostor);
+            pool.crewmateEnsuredPool.Add(RoleType.Sheriff);
+            pool.crewmateEnsuredPool.Add(RoleType.Sheriff);
 
             return pool;
         }
