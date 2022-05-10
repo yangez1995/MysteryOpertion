@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MysteryOpertion", "AgeOfMagic\MysteryOpertion.csproj", "{11FBC798-BAF5-4EE5-9511-BE6DB0592F99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MysteryOpertion", "MysteryOpertion\MysteryOpertion.csproj", "{11FBC798-BAF5-4EE5-9511-BE6DB0592F99}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
