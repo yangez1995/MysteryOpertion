@@ -73,9 +73,9 @@ namespace MysteryOpertion.Patches
         private static RolePool loadRolePool()
         {
             RolePool pool = new RolePool();
-            pool.crewmatePriorityPool.Add(RoleType.Traveller);
-            pool.crewmatePriorityPool.Add(RoleType.DoomBait);
-            pool.crewmatePriorityPool.Add(RoleType.DoomBait);
+            pool.crewmatePriorityPool.Add(RoleType.Coroner);
+            pool.crewmatePriorityPool.Add(RoleType.Coroner);
+            pool.crewmatePriorityPool.Add(RoleType.Coroner);
 
             pool.impostorPriorityPool.Add(RoleType.NoneFaceMan);
             return pool;

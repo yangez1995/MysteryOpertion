@@ -79,4 +79,30 @@ namespace MysteryOpertion.Patches
             return false;
         }
     }
+
+    [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.ServerStart))]
+    class MeetingServerStartPatch
+    {
+        public static void Postfix(MeetingHud __instance) 
+        {
+            SendCoronerChatMessage();
+        }
+
+        private static void SendCoronerChatMessage()
+        {
+            foreach(var record in GameNote.DeathRecords)
+            {
+                if(record.IsDeadInCurrentRound)
+                {
+                    foreach (var player in Players.playerList)
+                    {
+                        if (player.mainRole is not Coroner) continue;
+
+                        string msg = TextDictionary.GenerateCoronerReport(record);
+                        DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player.playerControl, msg);
+                    }
+                }
+            }
+        }
+    }
 }

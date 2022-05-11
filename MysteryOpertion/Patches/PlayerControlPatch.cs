@@ -204,8 +204,7 @@ namespace MysteryOpertion.Patches
                 if (excludeIdList != null && excludeIdList.Contains(playerInfo.PlayerId)) continue;
 
                 var obj = playerInfo.Object;
-                if (obj == null)
-                    continue;
+                if (obj == null) continue;
 
                 if (!obj.inVent || canTargetPlayerInVents)
                 {
@@ -238,6 +237,37 @@ namespace MysteryOpertion.Patches
         {
             var sourcePlayer = Players.GetPlayer(__instance);
             var targetPlayer = Players.GetPlayer(target);
+
+            //记录死亡报告
+            DeathRecord deathRecord = new DeathRecord();
+            deathRecord.KillerPlayer = sourcePlayer;
+            deathRecord.deadPlayer = targetPlayer;
+            Debug.Log(deathRecord.KillerPlayer.mainRole.GetRoleName() + "|" + deathRecord.deadPlayer.mainRole.GetRoleName());
+
+            if (sourcePlayer == targetPlayer) deathRecord.Cause = CauseOfDeath.Suicide;
+            else if (sourcePlayer.mainRole is Sheriff) deathRecord.Cause = CauseOfDeath.Sheriffkill;
+            else deathRecord.Cause = CauseOfDeath.CommonImpostorKill;
+
+            //计算凶案现场人数
+            var sourcePosition = target.GetTruePosition();
+            float distances = GameOptionsData.KillDistances[Mathf.Clamp(PlayerControl.GameOptions.KillDistance, 0, 2)] * 1.5f;
+            foreach (var playerInfo in GameData.Instance.AllPlayers)
+            {
+                if (playerInfo.Disconnected || playerInfo.IsDead) continue;
+
+                var obj = playerInfo.Object;
+                if (obj == null) continue;
+
+                Vector2 vector = obj.GetTruePosition() - sourcePosition;
+                if (vector.magnitude <= distances && !PhysicsHelpers.AnyNonTriggersBetween(sourcePosition, vector.normalized, vector.magnitude, Constants.ShipAndObjectsMask))
+                {
+                    deathRecord.MurderScenePeopleCount++;
+                }
+            }
+            Debug.Log(deathRecord.MurderScenePeopleCount.ToString());
+            GameNote.DeathRecords.Add(deathRecord);
+
+            //厄运诱饵被击杀时事件
             if (targetPlayer.mainRole is DoomBait)
             {
                 ToolBox.showFlash(targetPlayer.mainRole.GetRoleColor(), 1);
@@ -253,4 +283,6 @@ namespace MysteryOpertion.Patches
             }
         }
     }
+
+    
 }

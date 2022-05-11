@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MysteryOpertion.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -13,6 +14,7 @@ namespace MysteryOpertion
         public const string LightPrayer = "祈光人";
         public const string Judge = "法官";
         public const string DoomBait = "厄运诱饵";
+        public const string Coroner = "验尸官";
 
         public const string ArsonExpert = "纵火家";
 
@@ -29,6 +31,7 @@ namespace MysteryOpertion
         public const string LightPrayerBlurb = "赞美太阳!";
         public const string JudgeBlurb = "掌控投票 就是掌控胜利";
         public const string DoomBaitBlurb = "画个圈圈诅咒凶手";
+        public const string CoronerBlurb = "尸体可不会说谎";
 
         public const string ArsonExpertBlurb = "艺术就是 纵火!";
 
@@ -55,5 +58,27 @@ namespace MysteryOpertion
     public static class TextDictionary
     {
         public const string Role = "职业";
+
+        public static string GenerateCoronerReport(DeathRecord record)
+        {
+            var deathElapsedTime = (DateTime.UtcNow - record.deadTime).TotalMilliseconds;
+            string causeOfDeath;
+            switch (record.Cause)
+            {
+                case CauseOfDeath.CommonImpostorKill:
+                    causeOfDeath = "割伤（伪装者击杀）";
+                    break;
+                case CauseOfDeath.Sheriffkill:
+                    causeOfDeath = "枪伤（治安官击杀）";
+                    break;
+                case CauseOfDeath.Suicide:
+                    causeOfDeath = "自杀";
+                    break;
+                default:
+                    causeOfDeath = "未知";
+                    break;
+            }
+            return $"尸检报告：[{record.deadPlayer.playerControl.Data.PlayerName}]死于{Math.Round(deathElapsedTime / 1000)}秒前，死亡原因为[{causeOfDeath}]，凶案现场当时有{record.MurderScenePeopleCount}人。";
+        }
     }
 }

@@ -19,6 +19,7 @@ namespace MysteryOpertion.Model.Roles
                 case RoleType.LightPrayer: return new LightPrayer(player);
                 case RoleType.Judge: return new Judge(player);
                 case RoleType.DoomBait: return new DoomBait(player);
+                case RoleType.Coroner: return new Coroner(player);
 
                 case RoleType.ArsonExpert: return new ArsonExpert(player);
 

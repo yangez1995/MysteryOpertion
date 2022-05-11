@@ -13,6 +13,7 @@ namespace MysteryOpertion.Model.Roles
         LightPrayer,
         Judge,
         DoomBait,
+        Coroner,
 
         ArsonExpert,
 
