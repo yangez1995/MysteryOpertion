@@ -13,8 +13,8 @@ namespace MysteryOpertion.Model.Buttons.Implement
 
         public ArsonExpertOiledButton(Player player) : base(player)
         {
-            this.cooldownTime = 15f;
-            this.sanityCost = 0;
+            this.CooldownTime = 15f;
+            this.SanityCost = 0;
             this.text = ButtonTextDictionary.ArsonExpertOiledButtonText;
 
             this.oiledRequiredTime = 2;
@@ -22,24 +22,24 @@ namespace MysteryOpertion.Model.Buttons.Implement
 
         public override bool IsAvailable()
         {
-            return Target is not null && OiledTarget is null && player.playerControl.CanMove;
+            return Target is not null && OiledTarget is null && player.PlayerControl.CanMove;
         }
 
         public override bool IsShow()
         {
-            return player?.playerControl == PlayerControl.LocalPlayer && !player.playerControl.Data.IsDead;
+            return player?.PlayerControl == PlayerControl.LocalPlayer && !player.PlayerControl.Data.IsDead;
         }
 
         public override void OnClick()
         {
-            timer = oiledRequiredTime;
+            Timer = oiledRequiredTime;
             OiledTarget = Target;
         }
 
         public override void OnMeetingEnd()
         {
             OiledTarget = null;
-            timer = cooldownTime;
+            Timer = CooldownTime;
         }
     }
 }

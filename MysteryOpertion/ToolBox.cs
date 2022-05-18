@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using UnhollowerBaseLib;
 using UnityEngine;
+using static GameData;
 
 namespace MysteryOpertion
 {
@@ -162,6 +163,7 @@ namespace MysteryOpertion
             return list;
         }
 
+        //获得不重复的随机数
         public static List<int> GetRandomNumberListUnrepeat(int min, int max, int count)
         {
             List<int> list = new List<int>();
@@ -179,6 +181,13 @@ namespace MysteryOpertion
             }
 
             return list;
+        }
+
+        //获取随机玩家
+        public static Player GetRandomPlayer()
+        {
+            int index = random.Next(0, Players.playerList.Count);
+            return Players.playerList[index];
         }
 
         //清空玩家任务
@@ -229,6 +238,17 @@ namespace MysteryOpertion
                 }
                 if (p == 1f && renderer != null) renderer.enabled = false;
             })));
+        }
+
+        public static int CompletedTaskCount(PlayerInfo info)
+        {
+            int count = 0;
+            foreach(var task in info.Tasks)
+            {
+                if (task.Complete) count++;
+            }
+
+            return count;
         }
     }
 }

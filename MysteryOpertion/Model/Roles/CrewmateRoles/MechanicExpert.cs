@@ -13,9 +13,7 @@ namespace MysteryOpertion.Model.Roles.CrewmateRoles
 
         public MechanicExpert(Player player) : base(player)
         {
-            this.roleName = RoleNameDictionary.MechanicExpert;
-            this.roleColor = Color.blue;
-            this.roleBlurb = RoleBlurbDictionary.MechanicExpertBlurb;
+            this.info = RoleInfoDictionary.MechanicExpert;
             this.maxSanityPoint = 50;
             this.initialSanityPoint = 50;
 

@@ -21,11 +21,13 @@
       <None Remove="Model\Roles\RoleBase.cs~RFfb1d5ac.TMP" />
       <None Remove="Resources\Arrow.png" />
       <None Remove="Resources\EmptyButton.png" />
+      <None Remove="Resources\TargetIcon.png" />
     </ItemGroup>
 
     <ItemGroup>
       <EmbeddedResource Include="Resources\Arrow.png" />
       <EmbeddedResource Include="Resources\EmptyButton.png" />
+      <EmbeddedResource Include="Resources\TargetIcon.png" />
     </ItemGroup>
 
     <ItemGroup>

@@ -22,7 +22,7 @@ namespace MysteryOpertion.Patches
                 if (GameNote.ArsonExpertWin)
                 {
                     TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
-                    ResetWinnerListByRole(RoleNameDictionary.ArsonExpert);
+                    ResetWinnerListByRole(RoleInfoDictionary.ArsonExpert.Name);
                 }
             }
 
@@ -31,9 +31,9 @@ namespace MysteryOpertion.Patches
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
                 foreach(var player in Players.playerList)
                 {
-                    if(player.mainRole.GetRoleName() == roleName)
+                    if(player.MainRole.GetRoleName() == roleName)
                     {
-                        WinningPlayerData wpd = new WinningPlayerData(player.playerControl.Data);
+                        WinningPlayerData wpd = new WinningPlayerData(player.PlayerControl.Data);
                         TempData.winners.Add(wpd);
                     }
                 }

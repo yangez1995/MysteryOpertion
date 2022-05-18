@@ -4,7 +4,9 @@ using MysteryOpertion.Model.Roles.CrewmateRoles;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TMPro;
 using UnhollowerBaseLib;
+using UnityEngine;
 
 namespace MysteryOpertion
 {
@@ -15,10 +17,12 @@ namespace MysteryOpertion
         CustomMurderPlayer,
         CalcSanityPoint,
         ReSetTasks,
+        ShowCenterMessage,
 
         UseRepairButtonFixLights = 91,
         LightPrayerBless,
-        Morph
+        Morph,
+        CurseKill
     }
 
     public static class RPCFunctions
@@ -32,13 +36,13 @@ namespace MysteryOpertion
         {
             foreach(var player in Players.playerList)
             {
-                if(player.playerControl.PlayerId == playerId)
+                if(player.PlayerControl.PlayerId == playerId)
                 {
                     var role = RoleFactory.Produce(roleType, player);
 
-                    player.mainRole = role;
-                    player.maxSanityPoint = role.GetMaxSanityPoint();
-                    player.sanityPoint = role.GetInitialSanityPoint() < player.sanityPoint ? role.GetInitialSanityPoint() : player.sanityPoint;
+                    player.MainRole = role;
+                    player.MaxSanityPoint = role.GetMaxSanityPoint();
+                    player.SanityPoint = role.GetInitialSanityPoint() < player.SanityPoint ? role.GetInitialSanityPoint() : player.SanityPoint;
                     break;
                 }
             }
@@ -64,6 +68,32 @@ namespace MysteryOpertion
             GameData.Instance.SetTasks(playerId, taskTypeIds);
         }
 
+        public static TMP_Text centerMessage;
+        public static void ShowCenterMessage(string message)
+        {
+            HudManager instance = DestroyableSingleton<HudManager>.Instance;
+            var roomTracker = instance?.roomTracker;
+            if (roomTracker is null) return;
+
+            var gameObject = UnityEngine.Object.Instantiate<GameObject>(roomTracker.gameObject);
+            gameObject.transform.SetParent(DestroyableSingleton<HudManager>.Instance.transform);
+            UnityEngine.Object.DestroyImmediate(gameObject.GetComponent<RoomTracker>());
+            gameObject.transform.localPosition = new Vector3(0f, -1.8f, gameObject.transform.localPosition.z);
+            gameObject.transform.localScale *= 1.5f;
+
+            centerMessage = gameObject.GetComponent<TMP_Text>();
+            centerMessage.text = message;
+
+            Action<float> action = (float p) =>
+            {
+                if (p == 0f)
+                {
+                    UnityEngine.Object.Destroy(centerMessage.gameObject);
+                }
+            };
+            DestroyableSingleton<HudManager>.Instance.StartCoroutine(Effects.Lerp(3, action));
+        }
+
         public static void UseRepairButtonFixLights()
         {
             SwitchSystem switchSystem = ShipStatus.Instance.Systems[SystemTypes.Electrical].Cast<SwitchSystem>();
@@ -73,7 +103,7 @@ namespace MysteryOpertion
         public static void LightPrayerBless(byte sourceId, byte targetId)
         {
             Player source = Players.GetPlayer(sourceId);
-            if (source.mainRole is not LightPrayer) return;
+            if (source.MainRole is not LightPrayer) return;
 
             Player target = Players.GetPlayer(targetId);
             source.CalcSanityPoint(-5);
@@ -91,6 +121,9 @@ namespace MysteryOpertion
                 target.Data.DefaultOutfit.VisorId, target.Data.DefaultOutfit.SkinId, target.Data.DefaultOutfit.PetId);
         }
 
-        
+        public static void CurseKill(byte sourceId, byte targetId)
+        {
+
+        }
     }
 }

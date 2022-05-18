@@ -12,20 +12,20 @@ namespace MysteryOpertion.Model.Buttons.Implement
 
         public TravelPlayerButton(Player player) : base(player)
         {
-            this.cooldownTime = 10f;
-            this.sanityCost = 10;
+            this.CooldownTime = 10f;
+            this.SanityCost = 10;
             this.text = ButtonTextDictionary.TravelPlayerButtonText_Mark;
             positionOffset = new Vector3(-0.9f, 1f, 0f);
         }
 
         public override bool IsAvailable()
         {
-            return player.playerControl.CanMove;
+            return player.PlayerControl.CanMove;
         }
 
         public override bool IsShow()
         {
-            return player?.playerControl == PlayerControl.LocalPlayer && !player.playerControl.Data.IsDead;
+            return player?.PlayerControl == PlayerControl.LocalPlayer && !player.PlayerControl.Data.IsDead;
         }
 
         public override void OnClick()
@@ -40,12 +40,12 @@ namespace MysteryOpertion.Model.Buttons.Implement
             else
             {
                 Vector2 position;
-                if (MarkedPlayer.playerControl.Data.IsDead)
+                if (MarkedPlayer.PlayerControl.Data.IsDead)
                 {
                     DeadBody targetBody = null;
                     foreach(var body in UnityEngine.Object.FindObjectsOfType<DeadBody>())
                     {
-                        if(body.ParentId == MarkedPlayer.playerControl.PlayerId)
+                        if(body.ParentId == MarkedPlayer.PlayerControl.PlayerId)
                         {
                             targetBody = body;
                             break;
@@ -57,11 +57,11 @@ namespace MysteryOpertion.Model.Buttons.Implement
                 } 
                 else
                 {
-                    position = MarkedPlayer.playerControl.GetTruePosition();
+                    position = MarkedPlayer.PlayerControl.GetTruePosition();
                 }
-                player.playerControl.NetTransform.SnapTo(new Vector2(position.x, position.y + 0.3636f));
+                player.PlayerControl.NetTransform.SnapTo(new Vector2(position.x, position.y + 0.3636f));
                 MarkedPlayer = null;
-                timer = cooldownTime;
+                Timer = CooldownTime;
                 text = ButtonTextDictionary.TravelPlayerButtonText_Mark;
 
                 CostSanity();
@@ -70,7 +70,7 @@ namespace MysteryOpertion.Model.Buttons.Implement
 
         public override void OnMeetingEnd()
         {
-            timer = cooldownTime;
+            Timer = CooldownTime;
         }
     }
 }

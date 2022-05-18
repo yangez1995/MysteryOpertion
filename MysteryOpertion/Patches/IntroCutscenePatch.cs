@@ -17,7 +17,7 @@ namespace MysteryOpertion.Patches
         {
             public static void Postfix(IntroCutscene __instance)
             {
-                var role = Players.GetLocalPlayer().mainRole;
+                var role = Players.GetLocalPlayer().MainRole;
 
                 HudManager.Instance.StartCoroutine(Effects.Lerp(1f, new Action<float>((p) => {
                     __instance.RoleText.text = role.GetRoleName();
@@ -39,9 +39,9 @@ namespace MysteryOpertion.Patches
 
                 foreach(var player in Players.playerList)
                 {
-                    if(player.mainRole is Chaos)
+                    if(player.MainRole is Chaos)
                     {
-                        ToolBox.ReSetPlayerTask(player.playerControl.PlayerId, 1, 1, 1);
+                        ToolBox.ReSetPlayerTask(player.PlayerControl.PlayerId, 1, 1, 1);
                     }
                 }
             }
@@ -51,7 +51,7 @@ namespace MysteryOpertion.Patches
                 PlayerIcons.iconDict.Clear();
 
                 Player localPlayer = Players.GetLocalPlayer();
-                if (localPlayer.mainRole is not ArsonExpert) return;
+                if (localPlayer.MainRole is not ArsonExpert) return;
 
                 int index = 0;
                 if (PlayerControl.LocalPlayer != null && HudManager.Instance != null)

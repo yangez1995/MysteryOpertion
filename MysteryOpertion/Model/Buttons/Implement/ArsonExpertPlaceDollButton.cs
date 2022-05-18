@@ -10,20 +10,20 @@ namespace MysteryOpertion.Model.Buttons.Implement
     {
         public ArsonExpertPlaceDollButton(Player player) : base(player)
         {
-            this.cooldownTime = 10f;
-            this.sanityCost = 15;
+            this.CooldownTime = 10f;
+            this.SanityCost = 15;
             this.text = ButtonTextDictionary.ArsonExpertPlaceDollButton;
             this.positionOffset = new Vector3(-0.9f, 1f, 0f);
         }
 
         public override bool IsAvailable()
         {
-            return player.playerControl.CanMove;
+            return player.PlayerControl.CanMove;
         }
 
         public override bool IsShow()
         {
-            return player?.playerControl == PlayerControl.LocalPlayer && !player.playerControl.Data.IsDead;
+            return player?.PlayerControl == PlayerControl.LocalPlayer && !player.PlayerControl.Data.IsDead;
         }
 
         public override void OnClick()
@@ -41,7 +41,7 @@ namespace MysteryOpertion.Model.Buttons.Implement
 
         public override void OnMeetingEnd()
         {
-            timer = cooldownTime;
+            Timer = CooldownTime;
         }
     }
 }

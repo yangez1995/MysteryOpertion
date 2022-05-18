@@ -29,7 +29,7 @@ namespace MysteryOpertion.Patches
             {
                 __result = __instance.MaxLightRadius;
             }
-            else if (player.mainRole is LightPrayer)
+            else if (player.MainRole is LightPrayer)
             {
                 __result = __instance.MaxLightRadius;
             }
@@ -63,7 +63,7 @@ namespace MysteryOpertion.Patches
             bool allTasksCompleted = true;
             foreach (var player in Players.playerList)
             {
-                if (player.mainRole is Crewmate && !player.playerControl.AllTasksCompleted())
+                if (player.MainRole is Crewmate && !player.PlayerControl.AllTasksCompleted())
                 {
                     allTasksCompleted = false;
                     break;

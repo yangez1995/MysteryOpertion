@@ -19,25 +19,25 @@ namespace MysteryOpertion.Model.Buttons.Implement
 
         public override bool IsAvailable()
         {
-            return Target is not null && player.playerControl.CanMove;
+            return Target is not null && player.PlayerControl.CanMove;
         }
 
         public override bool IsShow()
         {
-            return player?.playerControl == PlayerControl.LocalPlayer && !player.playerControl.Data.IsDead;
+            return player?.PlayerControl == PlayerControl.LocalPlayer && !player.PlayerControl.Data.IsDead;
         }
 
         public override void OnClick()
         {
-            PlayerControl source = player.playerControl;
+            PlayerControl source = player.PlayerControl;
             PlayerControl target;
-            if(Target.mainRole is Impostor)
+            if(Target.MainRole is Impostor)
             {
-                target = Target.playerControl;
+                target = Target.PlayerControl;
             }
             else
             {
-                target = player.playerControl;
+                target = player.PlayerControl;
             }
 
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RPCFuncType.CustomMurderPlayer, SendOption.Reliable);
@@ -46,12 +46,12 @@ namespace MysteryOpertion.Model.Buttons.Implement
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             RPCFunctions.CustomMurderPlayer(source.PlayerId, target.PlayerId);
 
-            timer = cooldownTime;
+            Timer = CooldownTime;
         }
 
         public override void OnMeetingEnd()
         {
-            timer = cooldownTime;
+            Timer = CooldownTime;
         }
     }
 }

@@ -40,6 +40,10 @@ namespace MysteryOpertion.Patches
                     var taskTypeIds = reader.ReadBytesAndSize();
                     RPCFunctions.ReSetTasks(playerId, taskTypeIds);
                     break;
+                case (byte)RPCFuncType.ShowCenterMessage:
+                    var message = reader.ReadString();
+                    RPCFunctions.ShowCenterMessage(message);
+                    break;
                 case (byte)RPCFuncType.UseRepairButtonFixLights:
                     RPCFunctions.UseRepairButtonFixLights();
                     break;

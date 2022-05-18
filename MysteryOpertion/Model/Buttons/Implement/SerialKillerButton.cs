@@ -5,15 +5,15 @@ using System.Text;
 
 namespace MysteryOpertion.Model.Buttons.Implement
 {
-    public class BlessButton : ButtonBase
+    public class SerialKillerButton : ButtonBase
     {
         public Player Target { get; set; }
 
-        public BlessButton(Player player) : base(player)
+        public SerialKillerButton(Player player) : base(player)
         {
-            this.CooldownTime = 20f;
-            this.SanityCost = 5;
-            this.text = ButtonTextDictionary.BlessButtonText;
+            sprite = HudManager.Instance.KillButton.graphic.sprite;
+            text = ButtonTextDictionary.KillButtonText;
+            CooldownTime = 20f;
         }
 
         public override bool IsAvailable()
@@ -28,15 +28,17 @@ namespace MysteryOpertion.Model.Buttons.Implement
 
         public override void OnClick()
         {
-            var sourceId = player.PlayerControl.PlayerId;
-            var targetId = Target.PlayerControl.PlayerId;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RPCFuncType.LightPrayerBless, SendOption.Reliable);
-            writer.Write(sourceId);
-            writer.Write(targetId);
+            PlayerControl source = player.PlayerControl;
+            PlayerControl target = Target.PlayerControl;
+
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RPCFuncType.CustomMurderPlayer, SendOption.Reliable);
+            writer.Write(source.PlayerId);
+            writer.Write(target.PlayerId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
-            RPCFunctions.LightPrayerBless(sourceId, targetId);
+            RPCFunctions.CustomMurderPlayer(source.PlayerId, target.PlayerId);
 
             Timer = CooldownTime;
+            player.CalcSanityPoint(20);
         }
 
         public override void OnMeetingEnd()

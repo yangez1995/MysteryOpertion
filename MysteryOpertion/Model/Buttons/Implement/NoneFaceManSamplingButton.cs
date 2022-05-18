@@ -12,31 +12,31 @@ namespace MysteryOpertion.Model.Buttons.Implement
 
         public NoneFaceManSamplingButton(Player player) : base(player)
         {
-            this.cooldownTime = 10f;
-            this.sanityCost = 0;
+            this.CooldownTime = 10f;
+            this.SanityCost = 0;
             this.text = ButtonTextDictionary.NoneFaceManButtonText_Sampling;
             positionOffset = new Vector3(-2.7f, 0f, 0f);
         }
 
         public override bool IsAvailable()
         {
-            return Target is not null && SamplingTarget is null && player.playerControl.CanMove;
+            return Target is not null && SamplingTarget is null && player.PlayerControl.CanMove;
         }
 
         public override bool IsShow()
         {
-            return player?.playerControl == PlayerControl.LocalPlayer && !player.playerControl.Data.IsDead;
+            return player?.PlayerControl == PlayerControl.LocalPlayer && !player.PlayerControl.Data.IsDead;
         }
 
         public override void OnClick()
         {
             SamplingTarget = Target;
-            timer = cooldownTime;
+            Timer = CooldownTime;
         }
 
         public override void OnMeetingEnd()
         {
-            timer = cooldownTime;
+            Timer = CooldownTime;
         }
     }
 }

@@ -15,6 +15,8 @@ namespace MysteryOpertion.Model.Buttons
         NoneFaceManMorphButton,
         NoneFaceManRelieveButton,
         ArsonExpertOiledButton,
-        ArsonExpertPlaceDollButton
+        ArsonExpertPlaceDollButton,
+        DivineButton,
+        SerialKillerButton
     }
 }

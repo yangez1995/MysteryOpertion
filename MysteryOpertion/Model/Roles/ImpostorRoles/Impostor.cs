@@ -9,9 +9,7 @@ namespace MysteryOpertion.Model.Roles.ImpostorRoles
     {
         public Impostor(Player player) : base(player) 
         {
-            this.roleName = RoleNameDictionary.Impostor;
-            this.roleColor = Color.red;
-            this.roleBlurb = RoleBlurbDictionary.ImpostorBlurb;
+            this.info = RoleInfoDictionary.Impostor;
             this.maxSanityPoint = 75;
             this.initialSanityPoint = 75;
         }

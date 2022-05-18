@@ -13,9 +13,7 @@ namespace MysteryOpertion.Model.Roles.CrewmateRoles
 
         public LightPrayer(Player player) : base(player)
         {
-            this.roleName = RoleNameDictionary.LightPrayer;
-            this.roleColor = new Color32(250, 250, 210, byte.MaxValue);
-            this.roleBlurb = RoleBlurbDictionary.LightPrayerBlurb;
+            this.info = RoleInfoDictionary.LightPrayer;
             this.maxSanityPoint = 50;
             this.initialSanityPoint = 50;
 

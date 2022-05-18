@@ -31,7 +31,7 @@ namespace MysteryOpertion
         {
             foreach (var player in Players.playerList)
             {
-                if (player.playerControl.PlayerId == playerId)
+                if (player.PlayerControl.PlayerId == playerId)
                     return player;
             }
             return null;

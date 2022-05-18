@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace MysteryOpertion.Model.Roles.CrewmateRoles
 {
-    public class Crewmate : RoleBase
+    public class Eavesdropper : Crewmate
     {
-        public Crewmate(Player player) : base(player) 
+        public Eavesdropper(Player player) : base(player)
         {
-            this.info = RoleInfoDictionary.Crewmate;
+            this.info = RoleInfoDictionary.Eavesdropper;
             this.maxSanityPoint = 50;
             this.initialSanityPoint = 50;
         }

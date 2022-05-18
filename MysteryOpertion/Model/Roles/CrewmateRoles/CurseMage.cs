@@ -5,13 +5,17 @@ using UnityEngine;
 
 namespace MysteryOpertion.Model.Roles.CrewmateRoles
 {
-    public class Crewmate : RoleBase
+    public class CurseMage : Crewmate
     {
-        public Crewmate(Player player) : base(player) 
+        public int CurseTimes { get; set; }
+
+        public CurseMage(Player player) : base(player)
         {
-            this.info = RoleInfoDictionary.Crewmate;
+            this.info = RoleInfoDictionary.CurseMage;
             this.maxSanityPoint = 50;
             this.initialSanityPoint = 50;
+
+            this.CurseTimes = 2;
         }
     }
 }

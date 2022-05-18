@@ -14,9 +14,7 @@ namespace MysteryOpertion.Model.Roles.CrewmateRoles
 
         public Traveller(Player player) : base(player)
         {
-            this.roleName = RoleNameDictionary.Traveller;
-            this.roleColor = Color.cyan;
-            this.roleBlurb = RoleBlurbDictionary.TravellerBlurb;
+            this.info = RoleInfoDictionary.Traveller;
             this.maxSanityPoint = 50;
             this.initialSanityPoint = 50;
 

@@ -22,7 +22,7 @@ namespace MysteryOpertion.Patches
         {
             if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started) return;
 
-            if (Players.GetLocalPlayer()?.playerControl != __instance) return;
+            if (Players.GetLocalPlayer()?.PlayerControl != __instance) return;
 
             var player = Players.GetLocalPlayer();
             if(player is null) return;
@@ -50,28 +50,28 @@ namespace MysteryOpertion.Patches
         {
             foreach (var player in Players.playerList)
             {
-                if(player.playerControl == PlayerControl.LocalPlayer || true)
+                if(player.PlayerControl == PlayerControl.LocalPlayer || true)
                 {
                     //变更玩家名显示
-                    Transform playerInfoTransform = player?.playerControl?.nameText?.transform?.parent?.FindChild("Info");
+                    Transform playerInfoTransform = player?.PlayerControl?.nameText?.transform?.parent?.FindChild("Info");
                     TMPro.TextMeshPro playerInfo = playerInfoTransform?.GetComponent<TMPro.TextMeshPro>();
                     if (playerInfo == null)
                     {
-                        playerInfo = UnityEngine.Object.Instantiate(player.playerControl.nameText, player.playerControl.nameText.transform.parent);
+                        playerInfo = UnityEngine.Object.Instantiate(player.PlayerControl.nameText, player.PlayerControl.nameText.transform.parent);
                         playerInfo.transform.localPosition += Vector3.up * 0.5f;
                         playerInfo.fontSize *= 0.75f;
                         playerInfo.gameObject.name = "Info";
                     }
 
-                    var text = $"{player.GetRoleName()} ({player.sanityPoint}/{player.maxSanityPoint})";
+                    var text = $"{player.GetRoleName()} ({player.SanityPoint}/{player.MaxSanityPoint})";
                     playerInfo.text = text;
                     playerInfo.color = player.GetRoleColor();
-                    player.playerControl.nameText.color = player.GetRoleColor();
+                    player.PlayerControl.nameText.color = player.GetRoleColor();
 
                     if(MeetingHud.Instance)
                     {
                         //变更会议时玩家名显示
-                        PlayerVoteArea playerVoteArea = MeetingHud.Instance?.playerStates?.FirstOrDefault(x => x.TargetPlayerId == player.playerControl.PlayerId);
+                        PlayerVoteArea playerVoteArea = MeetingHud.Instance?.playerStates?.FirstOrDefault(x => x.TargetPlayerId == player.PlayerControl.PlayerId);
                         Transform meetingInfoTransform = playerVoteArea?.NameText?.transform?.parent?.FindChild("Info");
                         TMPro.TextMeshPro meetingInfo = meetingInfoTransform?.GetComponent<TMPro.TextMeshPro>();
                         if (meetingInfo == null && playerVoteArea != null)
@@ -98,62 +98,68 @@ namespace MysteryOpertion.Patches
 
         private static void updatePlayerTarget(Player player)
         {
-            switch (player.mainRole.GetRoleName())
+            if(player.MainRole is Sheriff)
             {
-                case RoleNameDictionary.Sheriff:
-                    var sheriff = (Sheriff)player.mainRole;
-                    sheriff.sheriffKillButton.Target = getTarget();
-                    setTargetOutline(sheriff.sheriffKillButton.Target?.playerControl, sheriff.GetRoleColor());
-                    break;
-                case RoleNameDictionary.Traveller:
-                    var traveller = (Traveller)player.mainRole;
-                    if (traveller.travelPlayerButton.MarkedPlayer == null)
-                    {
-                        traveller.travelPlayerButton.TargetPlayer = getTarget();
-                        setTargetOutline(traveller.travelPlayerButton.TargetPlayer?.playerControl, traveller.GetRoleColor());
-                    }
-                    else
-                    {
-                        setTargetOutline(traveller.travelPlayerButton.MarkedPlayer?.playerControl, traveller.GetRoleColor());
-                    }
-                    break;
-                case RoleNameDictionary.LightPrayer:
-                    var lightPrayer = (LightPrayer)player.mainRole;
-                    lightPrayer.blessButton.Target = getTarget();
-                    setTargetOutline(lightPrayer.blessButton.Target?.playerControl, lightPrayer.GetRoleColor());
-                    break;
-                case RoleNameDictionary.NoneFaceMan:
-                    var noneFaceMan = (NoneFaceMan)player.mainRole;
-                    noneFaceMan.samplingButton.Target = getTarget();
-                    setTargetOutline(noneFaceMan.samplingButton.Target?.playerControl, noneFaceMan.GetRoleColor());
-                    break;
-                case RoleNameDictionary.ArsonExpert:
-                    var arsonExpert = (ArsonExpert)player.mainRole;
-                    arsonExpert.oiledButton.Target = getTarget(hodePlayer: arsonExpert.oiledButton.OiledTarget?.playerControl.Data, excludeIdList: arsonExpert.oiledPlayerIds);
-                    setTargetOutline(arsonExpert.oiledButton.Target?.playerControl, arsonExpert.GetRoleColor());
-                    break;
-                default:
-                    break;
+                var role = (Sheriff)player.MainRole;
+                role.sheriffKillButton.Target = getTarget();
+                setTargetOutline(role.sheriffKillButton.Target?.PlayerControl, role.GetRoleColor());
+            }
+            else if (player.MainRole is Traveller)
+            {
+                var role = (Traveller)player.MainRole;
+                if (role.travelPlayerButton.MarkedPlayer == null)
+                {
+                    role.travelPlayerButton.TargetPlayer = getTarget();
+                    setTargetOutline(role.travelPlayerButton.TargetPlayer?.PlayerControl, role.GetRoleColor());
+                }
+                else
+                {
+                    setTargetOutline(role.travelPlayerButton.MarkedPlayer?.PlayerControl, role.GetRoleColor());
+                }
+            }
+            else if (player.MainRole is LightPrayer)
+            {
+                var role = (LightPrayer)player.MainRole;
+                role.blessButton.Target = getTarget();
+                setTargetOutline(role.blessButton.Target?.PlayerControl, role.GetRoleColor());
+            }
+            else if (player.MainRole is NoneFaceMan)
+            {
+                var role = (NoneFaceMan)player.MainRole;
+                role.samplingButton.Target = getTarget();
+                setTargetOutline(role.samplingButton.Target?.PlayerControl, role.GetRoleColor());
+            }
+            else if (player.MainRole is ArsonExpert)
+            {
+                var role = (ArsonExpert)player.MainRole;
+                role.oiledButton.Target = getTarget(hodePlayer: role.oiledButton.OiledTarget?.PlayerControl.Data, excludeIdList: role.oiledPlayerIds);
+                setTargetOutline(role.oiledButton.Target?.PlayerControl, role.GetRoleColor());
+            }
+            else if (player.MainRole is SerialKiller)
+            {
+                var role = (SerialKiller)player.MainRole;
+                role.serialKillerButton.Target = getTarget();
+                setTargetOutline(role.serialKillerButton.Target?.PlayerControl, role.GetRoleColor());
             }
         }
 
         private static void updatePlayerTaskDescription(Player player)
         {
-            if(player.playerControl.myTasks.Count > 0)
+            if(player.PlayerControl.myTasks.Count > 0)
             {
-                var firstTask = player.playerControl.myTasks[0];
+                var firstTask = player.PlayerControl.myTasks[0];
                 var taskText = firstTask.gameObject.GetComponent<ImportantTextTask>()?.Text;
                 if(taskText is null)
                 {
                     var newTask = new GameObject("RoleTask").AddComponent<ImportantTextTask>();
-                    newTask.Text = ToolBox.FormatRoleTaskText(player.mainRole.GetRoleColor(), $"{TextDictionary.Role}-{player.mainRole.GetRoleName()}:\n{player.mainRole.GetRoleBlurb()}");
-                    player.playerControl.myTasks.Insert(0, newTask);
+                    newTask.Text = ToolBox.FormatRoleTaskText(player.MainRole.GetRoleColor(), $"{TextDictionary.Role}-{player.MainRole.GetRoleName()}:\n{player.MainRole.GetRoleBlurb()}");
+                    player.PlayerControl.myTasks.Insert(0, newTask);
                 }
-                else if(taskText.StartsWith(TextDictionary.Role) && !taskText.Contains(player.mainRole.GetRoleName()))
+                else if(taskText.StartsWith(TextDictionary.Role) && !taskText.Contains(player.MainRole.GetRoleName()))
                 {
                     var newTask = new GameObject("RoleTask").AddComponent<ImportantTextTask>();
-                    newTask.Text = ToolBox.FormatRoleTaskText(player.mainRole.GetRoleColor(), $"{TextDictionary.Role}-{player.mainRole.GetRoleName()}:\n{player.mainRole.GetRoleBlurb()}");
-                    player.playerControl.myTasks[0] = newTask;
+                    newTask.Text = ToolBox.FormatRoleTaskText(player.MainRole.GetRoleColor(), $"{TextDictionary.Role}-{player.MainRole.GetRoleName()}:\n{player.MainRole.GetRoleBlurb()}");
+                    player.PlayerControl.myTasks[0] = newTask;
                     firstTask.OnRemove();
                     UnityEngine.Object.Destroy(firstTask.gameObject);
                 }
@@ -161,8 +167,8 @@ namespace MysteryOpertion.Patches
             else
             {
                 var newTask = new GameObject("RoleTask").AddComponent<ImportantTextTask>();
-                newTask.Text = ToolBox.FormatRoleTaskText(player.mainRole.GetRoleColor(), $"{TextDictionary.Role}-{player.mainRole.GetRoleName()}:\n{player.mainRole.GetRoleBlurb()}");
-                player.playerControl.myTasks.Insert(0, newTask);
+                newTask.Text = ToolBox.FormatRoleTaskText(player.MainRole.GetRoleColor(), $"{TextDictionary.Role}-{player.MainRole.GetRoleName()}:\n{player.MainRole.GetRoleBlurb()}");
+                player.PlayerControl.myTasks.Insert(0, newTask);
             }
         }
 
@@ -170,7 +176,7 @@ namespace MysteryOpertion.Patches
         {
             foreach(var player in Players.playerList)
             {
-                if (player.mainRole is not DoomBait || !player.playerControl.Data.IsDead) continue;
+                if (player.MainRole is not DoomBait || !player.PlayerControl.Data.IsDead) continue;
 
 
             }
@@ -242,10 +248,10 @@ namespace MysteryOpertion.Patches
             DeathRecord deathRecord = new DeathRecord();
             deathRecord.KillerPlayer = sourcePlayer;
             deathRecord.deadPlayer = targetPlayer;
-            Debug.Log(deathRecord.KillerPlayer.mainRole.GetRoleName() + "|" + deathRecord.deadPlayer.mainRole.GetRoleName());
+            Debug.Log(deathRecord.KillerPlayer.MainRole.GetRoleName() + "|" + deathRecord.deadPlayer.MainRole.GetRoleName());
 
             if (sourcePlayer == targetPlayer) deathRecord.Cause = CauseOfDeath.Suicide;
-            else if (sourcePlayer.mainRole is Sheriff) deathRecord.Cause = CauseOfDeath.Sheriffkill;
+            else if (sourcePlayer.MainRole is Sheriff) deathRecord.Cause = CauseOfDeath.Sheriffkill;
             else deathRecord.Cause = CauseOfDeath.CommonImpostorKill;
 
             //计算凶案现场人数
@@ -268,21 +274,41 @@ namespace MysteryOpertion.Patches
             GameNote.DeathRecords.Add(deathRecord);
 
             //厄运诱饵被击杀时事件
-            if (targetPlayer.mainRole is DoomBait)
+            if (targetPlayer.MainRole is DoomBait)
             {
-                ToolBox.showFlash(targetPlayer.mainRole.GetRoleColor(), 1);
+                ToolBox.showFlash(targetPlayer.MainRole.GetRoleColor(), 1);
 
                 if(__instance == PlayerControl.LocalPlayer)
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RPCFuncType.CalcSanityPoint, SendOption.Reliable);
-                    writer.Write(sourcePlayer.playerControl.PlayerId);
+                    writer.Write(sourcePlayer.PlayerControl.PlayerId);
                     writer.Write(-20);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    RPCFunctions.CalcSanityPoint(sourcePlayer.playerControl.PlayerId, -20);
+                    RPCFunctions.CalcSanityPoint(sourcePlayer.PlayerControl.PlayerId, -20);
                 }
             }
         }
     }
 
-    
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CompleteTask))]
+    class PlayerControlCompleteTaskPatch
+    {
+        public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] uint idx)
+        {
+            int offset = 0;
+            foreach(var task in __instance.myTasks)
+            {
+                if (task.gameObject.name == "RoleTask")
+                    offset++;
+                else
+                    break;
+            }
+
+            GameNote.TaskComplete.Add(new TaskRecord { Player = __instance, TaskName = __instance.myTasks[(int)idx + offset].TaskType.ToString() });
+            var player = Players.GetLocalPlayer();
+            if (!__instance.AllTasksCompleted() || player is null || player.MainRole is not Eavesdropper) return;
+
+            RPCFunctions.ShowCenterMessage(TextDictionary.AllTaskComplete(__instance.Data.PlayerName));
+        }
+    }
 }

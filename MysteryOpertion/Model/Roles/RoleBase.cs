@@ -19,19 +19,15 @@ namespace MysteryOpertion.Model.Roles
 
     public class RoleBase : Role
     {
-        public string roleName;
-        public Color roleColor;
-        public string roleBlurb;
-        public int maxSanityPoint;
-        public int initialSanityPoint;
+        protected RoleInfo info;
+        protected int maxSanityPoint;
+        protected int initialSanityPoint;
 
-        public Dictionary<ButtonType, Button> buttonDict;
+        protected Dictionary<ButtonType, Button> buttonDict;
 
         public RoleBase(Player player) 
         {
-            this.roleName = string.Empty;
-            this.roleColor = Color.white;
-            this.roleBlurb = string.Empty;
+            this.info = new RoleInfo();
             this.maxSanityPoint = 50;
             this.initialSanityPoint = 50;
 
@@ -40,17 +36,17 @@ namespace MysteryOpertion.Model.Roles
 
         public string GetRoleName()
         {
-            return this.roleName;
+            return this.info.Name;
         }
 
         public Color GetRoleColor()
         {
-            return this.roleColor;
+            return this.info.Color;
         }
 
         public string GetRoleBlurb()
         {
-            return this.roleBlurb;
+            return this.info.Blurb;
         }
 
         public int GetMaxSanityPoint()

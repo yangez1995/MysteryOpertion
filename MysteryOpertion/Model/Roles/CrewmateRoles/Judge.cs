@@ -9,9 +9,7 @@ namespace MysteryOpertion.Model.Roles.CrewmateRoles
     {
         public Judge(Player player) : base(player)
         {
-            this.roleName = RoleNameDictionary.Judge;
-            this.roleColor = new Color32(32, 77, 66, byte.MaxValue);
-            this.roleBlurb = RoleBlurbDictionary.JudgeBlurb;
+            this.info = RoleInfoDictionary.Judge;
             this.maxSanityPoint = 50;
             this.initialSanityPoint = 50;
         }

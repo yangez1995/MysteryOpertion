@@ -3,6 +3,7 @@ using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using HarmonyLib;
 using Hazel;
+using MysteryOpertion.Model;
 using Reactor;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace MysteryOpertion;
 public partial class MysteryOpertionPlugin : BasePlugin
 {
     private static readonly System.Random random = new System.Random((int)DateTime.Now.Ticks);
+    public static MysteryOpertionPlugin Instance;
 
     public Harmony Harmony { get; } = new(Id);
 
@@ -25,7 +27,8 @@ public partial class MysteryOpertionPlugin : BasePlugin
 
     public override void Load()
     {
-        Debug.Log("Load====================================================");
+        Instance = this;
+        ConfigLoader.Load();
         Harmony.PatchAll();
     }
 }
@@ -85,5 +88,13 @@ public static class DebugManager
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         return new string(Enumerable.Repeat(chars, length)
             .Select(s => s[random.Next(s.Length)]).ToArray());
+    }
+}
+
+public static class ConfigLoader
+{
+    public static void Load()
+    {
+        ConfigSelecterFactory.Produce("UserRecommendConfig", "使用推荐配置", new string[] {"是", "否"});
     }
 }

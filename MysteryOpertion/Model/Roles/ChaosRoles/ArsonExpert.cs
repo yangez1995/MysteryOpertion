@@ -11,13 +11,12 @@ namespace MysteryOpertion.Model.Roles.ChaosRoles
     {
         public ArsonExpertOiledButton oiledButton;
         //public ArsonExpertPlaceDollButton placeDollButton;
+        
         public List<byte> oiledPlayerIds;
 
         public ArsonExpert(Player player) : base(player)
         {
-            this.roleName = RoleNameDictionary.ArsonExpert;
-            this.roleColor = new Color32(250, 106, 106, byte.MaxValue);
-            this.roleBlurb = RoleBlurbDictionary.ArsonExpertBlurb;
+            this.info = RoleInfoDictionary.ArsonExpert;
             this.maxSanityPoint = 50;
             this.initialSanityPoint = 50;
 

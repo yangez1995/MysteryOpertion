@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using MysteryOpertion.Model.Roles.ImpostorRoles;
 
 namespace MysteryOpertion.Patches
 {
@@ -19,33 +20,31 @@ namespace MysteryOpertion.Patches
             foreach(var player in Players.playerList)
             {
                 player.UpdateButtons();
-                if(player.playerControl == PlayerControl.LocalPlayer && player.mainRole is MechanicExpert)
+                if(player.PlayerControl == PlayerControl.LocalPlayer && player.MainRole is MechanicExpert)
                     __instance.ImpostorVentButton.Show();
 
                 ArsonExpertUpdate(player);
+                CommonSanityPointUpdate(player);
+                SerialKillerSanityPointUpdate(player);
+                ImpostorKillButtonUpdate(player, __instance);
             }
-
-            //foreach(var button in ButtonRespository.buttonDict)
-            //{
-            //    button.Value.OnHudManagerUpdate();
-            //}
         }
 
         private static void ArsonExpertUpdate(Player player)
         {
-            if (player.mainRole is not ArsonExpert) return;
+            if (player.MainRole is not ArsonExpert) return;
 
-            var role = (ArsonExpert)player.mainRole;
+            var role = (ArsonExpert)player.MainRole;
             if (role.oiledButton.OiledTarget == null) return;
 
             if (role.oiledButton.OiledTarget == role.oiledButton.Target)
             {
-                if (role.oiledButton.timer <= 0)
+                if (role.oiledButton.Timer <= 0)
                 {
-                    var playerId = role.oiledButton.OiledTarget.playerControl.PlayerId;
+                    var playerId = role.oiledButton.OiledTarget.PlayerControl.PlayerId;
                     role.oiledPlayerIds.Add(playerId);
                     role.oiledButton.OiledTarget = null;
-                    role.oiledButton.timer = role.oiledButton.cooldownTime;
+                    role.oiledButton.Timer = role.oiledButton.CooldownTime;
 
                     if (PlayerIcons.iconDict.ContainsKey(playerId))
                     {
@@ -56,7 +55,7 @@ namespace MysteryOpertion.Patches
             else
             {
                 role.oiledButton.OiledTarget = null;
-                role.oiledButton.timer = 0;
+                role.oiledButton.Timer = 0;
             }
 
             bool ArsonExpertWin = true;
@@ -73,6 +72,44 @@ namespace MysteryOpertion.Patches
                 GameNote.ArsonExpertWin = true;
             }
                 
+        }
+
+        private static void CommonSanityPointUpdate(Player player)
+        {
+            if (player.SanityPoint == player.MaxSanityPoint || player.MainRole is SerialKiller) return;
+
+            player.SanityPointTimer -= Time.deltaTime;
+            if(player.SanityPointTimer <= 0)
+            {
+                player.CalcSanityPoint(1);
+                player.SanityPointTimer = 2;
+            }
+        }
+
+        private static void SerialKillerSanityPointUpdate(Player player)
+        {
+            if(player.MainRole is not SerialKiller) return;
+
+            player.SanityPointTimer -= Time.deltaTime;
+            if (player.SanityPointTimer <= 0)
+            {
+                player.CalcSanityPoint(-1);
+                player.SanityPointTimer = 2;
+            }
+        }
+
+        private static void ImpostorKillButtonUpdate(Player player, HudManager __instance)
+        {
+            if (player.PlayerControl != PlayerControl.LocalPlayer || !player.PlayerControl.Data.Role.IsImpostor) return;
+
+            if (player.MainRole is SerialKiller)
+            {
+                __instance.KillButton.Hide();
+            }
+            else
+            {
+                __instance.KillButton.Show();
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ namespace MysteryOpertion.Patches
             float num = float.MaxValue;
             PlayerControl @object = pc.Object;
 
-            bool roleCouldUse = Players.GetLocalPlayer().mainRole is MechanicExpert;
+            bool roleCouldUse = Players.GetLocalPlayer().MainRole is MechanicExpert;
 
             var usableDistance = __instance.UsableDistance;
             if (__instance.name.StartsWith("JackInTheBoxVent_"))

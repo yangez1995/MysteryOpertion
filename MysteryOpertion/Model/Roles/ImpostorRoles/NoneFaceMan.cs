@@ -15,9 +15,7 @@ namespace MysteryOpertion.Model.Roles.ImpostorRoles
 
         public NoneFaceMan(Player player) : base(player)
         {
-            this.roleName = RoleNameDictionary.NoneFaceMan;
-            this.roleColor = Color.red;
-            this.roleBlurb = RoleBlurbDictionary.NoneFaceManBlurb;
+            this.info = RoleInfoDictionary.NoneFaceMan;
             this.maxSanityPoint = 50;
             this.initialSanityPoint = 50;
 

@@ -14,11 +14,16 @@ namespace MysteryOpertion.Model.Roles
         Judge,
         DoomBait,
         Coroner,
+        Diviner,
+        Eavesdropper,
+        CurseMage,
 
         ArsonExpert,
 
         Impostor,
-        NoneFaceMan
+        NoneFaceMan,
+        SerialKiller,
+        CurseWarlock
     }
 
     public enum RoleOrientation

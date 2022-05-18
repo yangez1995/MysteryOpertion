@@ -24,17 +24,17 @@ namespace MysteryOpertion.Model.Buttons
         protected Vector3 positionOffset;
         protected string text;
 
-        public float timer;
-        public float cooldownTime;
-        public int sanityCost;
+        public float Timer { get; set; }
+        public float CooldownTime { get; set; }
+        public int SanityCost { get; set; }
 
         public ButtonBase(Player player)
         {
             this.actionButton = UnityEngine.Object.Instantiate(HudManager.Instance.KillButton, HudManager.Instance.KillButton.transform.parent);
             this.player = player;
-            this.timer = 5f;
-            this.cooldownTime = 30f;
-            this.sanityCost = 0;
+            this.Timer = 5f;
+            this.CooldownTime = 30f;
+            this.SanityCost = 0;
             this.sprite = ToolBox.loadSpriteFromResources("MysteryOpertion.Resources.EmptyButton.png", 115f);
             this.positionOffset = Vector3.zero;
             this.text = string.Empty;
@@ -53,7 +53,7 @@ namespace MysteryOpertion.Model.Buttons
 
         protected void OnClickPatch()
         {
-            if (timer > 0f || !IsShow() || !IsAvailable()) return;
+            if (Timer > 0f || !IsShow() || !IsAvailable()) return;
 
             actionButton.graphic.color = new Color(1f, 1f, 1f, 0.3f);
             OnClick();
@@ -69,8 +69,8 @@ namespace MysteryOpertion.Model.Buttons
 
         protected void CostSanity()
         {
-            byte sourceId = player.playerControl.PlayerId;
-            int value = -sanityCost;
+            byte sourceId = player.PlayerControl.PlayerId;
+            int value = -SanityCost;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RPCFuncType.CalcSanityPoint, SendOption.Reliable);
             writer.Write(sourceId);
             writer.Write(value);
@@ -110,14 +110,14 @@ namespace MysteryOpertion.Model.Buttons
            
 
             //冷却时间相关
-            if (timer >= 0)
+            if (Timer >= 0)
             {
-                if(player.playerControl.moveable)
+                if(player.PlayerControl.moveable)
                 {
-                    timer -= Time.deltaTime;
+                    Timer -= Time.deltaTime;
                 }
             }
-            actionButton.SetCoolDown(timer, float.MaxValue);
+            actionButton.SetCoolDown(Timer, float.MaxValue);
         }
     }
 }

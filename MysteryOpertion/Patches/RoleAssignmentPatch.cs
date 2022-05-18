@@ -23,7 +23,7 @@ namespace MysteryOpertion.Patches
             var waitAssignImpostorList = new List<Player>();
             foreach (var player in Players.playerList)
             {
-                if (player.playerControl.Data.Role.IsImpostor)
+                if (player.PlayerControl.Data.Role.IsImpostor)
                     waitAssignImpostorList.Add(player);
                 else
                     waitAssignCrewmateList.Add(player);
@@ -36,7 +36,7 @@ namespace MysteryOpertion.Patches
                 var player = waitAssignCrewmateList[index];
                 waitAssignCrewmateList.RemoveAt(index);
 
-                AssignRole(player.playerControl.PlayerId, roleType);
+                AssignRole(player.PlayerControl.PlayerId, roleType);
             }
 
             foreach (var roleType in rolePool.impostorPriorityPool)
@@ -45,19 +45,19 @@ namespace MysteryOpertion.Patches
                 var player = waitAssignImpostorList[index];
                 waitAssignImpostorList.RemoveAt(index);
 
-                AssignRole(player.playerControl.PlayerId, roleType);
+                AssignRole(player.PlayerControl.PlayerId, roleType);
             }
 
             //设置未分配船员为白板
             foreach (var player in waitAssignCrewmateList)
             {
-                AssignRole(player.playerControl.PlayerId, RoleType.Crewmate);
+                AssignRole(player.PlayerControl.PlayerId, RoleType.Crewmate);
             }
 
             //设置未分配内鬼为白板
             foreach (var player in waitAssignImpostorList)
             {
-                AssignRole(player.playerControl.PlayerId, RoleType.Impostor);
+                AssignRole(player.PlayerControl.PlayerId, RoleType.Impostor);
             }
         }
 
@@ -73,11 +73,12 @@ namespace MysteryOpertion.Patches
         private static RolePool loadRolePool()
         {
             RolePool pool = new RolePool();
-            pool.crewmatePriorityPool.Add(RoleType.Coroner);
-            pool.crewmatePriorityPool.Add(RoleType.Coroner);
-            pool.crewmatePriorityPool.Add(RoleType.Coroner);
+            pool.crewmatePriorityPool.Add(RoleType.CurseMage);
+            pool.crewmatePriorityPool.Add(RoleType.CurseMage);
+            pool.crewmatePriorityPool.Add(RoleType.CurseMage);
 
-            pool.impostorPriorityPool.Add(RoleType.NoneFaceMan);
+            pool.impostorPriorityPool.Add(RoleType.CurseWarlock);
+            pool.impostorPriorityPool.Add(RoleType.CurseWarlock);
             return pool;
         }
 

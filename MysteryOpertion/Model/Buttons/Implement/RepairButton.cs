@@ -9,8 +9,8 @@ namespace MysteryOpertion.Model.Buttons.Implement
     {
         public RepairButton(Player player) : base(player)
         {
-            this.cooldownTime = 0f;
-            this.sanityCost = 20;
+            this.CooldownTime = 0f;
+            this.SanityCost = 20;
             this.text = ButtonTextDictionary.RepairButtonText;
         }
 
@@ -26,12 +26,12 @@ namespace MysteryOpertion.Model.Buttons.Implement
                 }
             }
                 
-            return player.playerControl.CanMove && SpecialTaskActive;
+            return player.PlayerControl.CanMove && SpecialTaskActive;
         }
 
         public override bool IsShow()
         {
-            return player?.playerControl == PlayerControl.LocalPlayer && !player.playerControl.Data.IsDead;
+            return player?.PlayerControl == PlayerControl.LocalPlayer && !player.PlayerControl.Data.IsDead;
         }
 
         public override void OnClick()
@@ -74,7 +74,7 @@ namespace MysteryOpertion.Model.Buttons.Implement
 
         public override void OnMeetingEnd()
         {
-            timer = cooldownTime;
+            Timer = CooldownTime;
         }
     }
 }

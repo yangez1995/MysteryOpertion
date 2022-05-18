@@ -7,41 +7,43 @@ namespace MysteryOpertion.Model
 {
     public class Player
     {
-        public PlayerControl playerControl;
-        public Role mainRole;
-        public List<Role> subRoles;
-        public int maxSanityPoint;
-        public int sanityPoint;
+        public PlayerControl PlayerControl { get; set; }
+        public Role MainRole { get; set; }
+        public List<Role> SubRoles { get; set; }
+        public int MaxSanityPoint { get; set; }
+        public int SanityPoint { get; set; }
+        public float SanityPointTimer { get; set; }
 
         public Player(PlayerControl playerControl)
         {
-            this.playerControl = playerControl;
-            this.subRoles = new List<Role>();
-            this.maxSanityPoint = 100;
-            this.sanityPoint = 100;
+            this.PlayerControl = playerControl;
+            this.SubRoles = new List<Role>();
+            this.MaxSanityPoint = 100;
+            this.SanityPoint = 100;
+            this.SanityPointTimer = 2;
         }
 
         public string GetRoleName()
         {
             StringBuilder builder = new StringBuilder();
-            foreach (var subRole in subRoles)
+            foreach (var subRole in SubRoles)
             {
                 builder.Append($"{subRole.GetRoleName()} ");
             }
-            builder.Append(mainRole.GetRoleName());
+            builder.Append(MainRole.GetRoleName());
 
             return builder.ToString();
         }
 
         public Color GetRoleColor()
         {
-            return mainRole.GetRoleColor();
+            return MainRole.GetRoleColor();
         }
 
         public void UpdateButtons()
         {
-            mainRole.UpdateButtons();
-            foreach (var role in subRoles)
+            MainRole.UpdateButtons();
+            foreach (var role in SubRoles)
             {
                 role.UpdateButtons();
             }
@@ -49,8 +51,8 @@ namespace MysteryOpertion.Model
 
         public void UpdateButtonsOnMeetingEnd()
         {
-            mainRole.UpdateButtonsOnMeetingEnd();
-            foreach (var role in subRoles)
+            MainRole.UpdateButtonsOnMeetingEnd();
+            foreach (var role in SubRoles)
             {
                 role.UpdateButtonsOnMeetingEnd();
             }
@@ -58,8 +60,8 @@ namespace MysteryOpertion.Model
 
         public void CalcSanityPoint(int num)
         {
-            var sum = sanityPoint + num;
-            sanityPoint = sum > maxSanityPoint ? maxSanityPoint: sum;     
+            var sum = SanityPoint + num;
+            SanityPoint = sum > MaxSanityPoint ? MaxSanityPoint : sum;     
         }
     }
 }
