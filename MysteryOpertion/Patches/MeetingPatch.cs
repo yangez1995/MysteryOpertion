@@ -88,45 +88,18 @@ namespace MysteryOpertion.Patches
     {
         public static void Postfix(MeetingHud __instance)
         {
-            SendCoronerChatMessage();
-            SendEavesdropperChatMessage();
+            SendChatMessage();
             AddCurseButtons(__instance);
         }
 
-        private static void SendCoronerChatMessage()
+        private static void SendChatMessage()
         {
-            foreach (var record in GameNote.DeathRecords)
-            {
-                if (record.IsDeadInCurrentRound)
-                {
-                    foreach (var player in Players.playerList)
-                    {
-                        if (player.MainRole is not Coroner) continue;
-
-                        string msg = TextDictionary.GenerateCoronerReport(record);
-                        DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player.PlayerControl, msg);
-                    }
-                }
-            }
-        }
-
-        private static void SendEavesdropperChatMessage()
-        {
-            if (GameNote.TaskComplete.Count == 0) return;
-
             foreach (var player in Players.playerList)
             {
-                if (player.MainRole is not Eavesdropper) continue;
-
-                for (int i = GameNote.TaskComplete.Count - 1; i >= 0; i--)
-                {
-                    var record = GameNote.TaskComplete[i];
-                    if (record.Player == player.PlayerControl) continue;
-
-                    string msg = TextDictionary.LastTaskComplete(record.TaskName);
-                    DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player.PlayerControl, msg);
-                    break;
-                }
+                if (player.MainRole is Coroner)
+                    ((Coroner)player.MainRole).SendCoronerReport();
+                else if (player.MainRole is Eavesdropper)
+                    ((Eavesdropper)player.MainRole).SendEavesdropperMessage();
             }
         }
 

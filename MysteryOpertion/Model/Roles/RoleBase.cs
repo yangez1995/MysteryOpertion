@@ -13,6 +13,7 @@ namespace MysteryOpertion.Model.Roles
         string GetRoleBlurb();
         int GetMaxSanityPoint();
         int GetInitialSanityPoint();
+        Dictionary<ButtonType, Button> GetButtons();
         void UpdateButtons();
         void UpdateButtonsOnMeetingEnd();
     }
@@ -57,6 +58,11 @@ namespace MysteryOpertion.Model.Roles
         public int GetInitialSanityPoint()
         {
             return this.initialSanityPoint;
+        }
+
+        public Dictionary<ButtonType, Button> GetButtons()
+        {
+            return this.buttonDict;
         }
 
         public void UpdateButtons()

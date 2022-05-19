@@ -7,11 +7,11 @@ using System.Text;
 
 namespace MysteryOpertion.Model.Buttons.Implement
 {
-    public class SheriffKillButton : ButtonBase
+    public class SheriffKillButton : ButtonBase, TargetedButton
     {
         public Player Target { get; set; }
 
-        public SheriffKillButton(Player player) : base(player) 
+        public SheriffKillButton(Player player) : base(player)
         {
             sprite = HudManager.Instance.KillButton.graphic.sprite;
             text = ButtonTextDictionary.SheriffKillButtonText;
@@ -31,7 +31,7 @@ namespace MysteryOpertion.Model.Buttons.Implement
         {
             PlayerControl source = player.PlayerControl;
             PlayerControl target;
-            if(Target.MainRole is Impostor)
+            if (Target.MainRole is Impostor)
             {
                 target = Target.PlayerControl;
             }
@@ -52,6 +52,12 @@ namespace MysteryOpertion.Model.Buttons.Implement
         public override void OnMeetingEnd()
         {
             Timer = CooldownTime;
+        }
+
+        public void UpdateTarget()
+        {
+            Target = ToolBox.GetTarget();
+            ToolBox.SetPlayerOutline(Target?.PlayerControl, RoleInfoDictionary.Sheriff.Color);
         }
     }
 }

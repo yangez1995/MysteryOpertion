@@ -42,7 +42,7 @@ namespace MysteryOpertion.Patches
                 if (role.oiledButton.Timer <= 0)
                 {
                     var playerId = role.oiledButton.OiledTarget.PlayerControl.PlayerId;
-                    role.oiledPlayerIds.Add(playerId);
+                    role.oiledButton.OiledPlayerIds.Add(playerId);
                     role.oiledButton.OiledTarget = null;
                     role.oiledButton.Timer = role.oiledButton.CooldownTime;
 
@@ -61,7 +61,7 @@ namespace MysteryOpertion.Patches
             bool ArsonExpertWin = true;
             foreach (var playerControl in PlayerControl.AllPlayerControls)
             {
-                if (playerControl != PlayerControl.LocalPlayer && !playerControl.Data.IsDead && !role.oiledPlayerIds.Contains(playerControl.PlayerId))
+                if (playerControl != PlayerControl.LocalPlayer && !playerControl.Data.IsDead && !role.oiledButton.OiledPlayerIds.Contains(playerControl.PlayerId))
                 {
                     ArsonExpertWin = false;
                     break;

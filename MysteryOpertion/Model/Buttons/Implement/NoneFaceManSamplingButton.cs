@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MysteryOpertion.Model.Buttons.Implement
 {
-    public class NoneFaceManSamplingButton : ButtonBase
+    public class NoneFaceManSamplingButton : ButtonBase, TargetedButton
     {
         public Player Target { get; set; }
         public Player SamplingTarget { get; set; }
@@ -37,6 +37,12 @@ namespace MysteryOpertion.Model.Buttons.Implement
         public override void OnMeetingEnd()
         {
             Timer = CooldownTime;
+        }
+
+        public void UpdateTarget()
+        {
+            Target = ToolBox.GetTarget();
+            ToolBox.SetPlayerOutline(Target?.PlayerControl, RoleInfoDictionary.NoneFaceMan.Color);
         }
     }
 }

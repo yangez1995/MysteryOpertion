@@ -11,8 +11,6 @@ namespace MysteryOpertion.Model.Roles.ChaosRoles
     {
         public ArsonExpertOiledButton oiledButton;
         //public ArsonExpertPlaceDollButton placeDollButton;
-        
-        public List<byte> oiledPlayerIds;
 
         public ArsonExpert(Player player) : base(player)
         {
@@ -25,8 +23,6 @@ namespace MysteryOpertion.Model.Roles.ChaosRoles
 
             //this.placeDollButton = (ArsonExpertPlaceDollButton)ButtonFactory.Produce(ButtonType.ArsonExpertPlaceDollButton, player);
             //this.buttonDict.Add(ButtonType.ArsonExpertPlaceDollButton, this.placeDollButton);
-
-            oiledPlayerIds = new List<byte>();
         }
     }
 }

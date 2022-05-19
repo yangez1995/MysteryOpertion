@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MysteryOpertion.Model.Buttons.Implement
 {
-    public class SerialKillerButton : ButtonBase
+    public class SerialKillerButton : ButtonBase, TargetedButton
     {
         public Player Target { get; set; }
 
@@ -44,6 +44,12 @@ namespace MysteryOpertion.Model.Buttons.Implement
         public override void OnMeetingEnd()
         {
             Timer = CooldownTime;
+        }
+
+        public void UpdateTarget()
+        {
+            Target = ToolBox.GetTarget();
+            ToolBox.SetPlayerOutline(Target?.PlayerControl, RoleInfoDictionary.SerialKiller.Color);
         }
     }
 }

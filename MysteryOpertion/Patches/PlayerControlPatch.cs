@@ -98,48 +98,10 @@ namespace MysteryOpertion.Patches
 
         private static void updatePlayerTarget(Player player)
         {
-            if(player.MainRole is Sheriff)
+            foreach(var btn in player.MainRole.GetButtons().Values)
             {
-                var role = (Sheriff)player.MainRole;
-                role.sheriffKillButton.Target = getTarget();
-                setTargetOutline(role.sheriffKillButton.Target?.PlayerControl, role.GetRoleColor());
-            }
-            else if (player.MainRole is Traveller)
-            {
-                var role = (Traveller)player.MainRole;
-                if (role.travelPlayerButton.MarkedPlayer == null)
-                {
-                    role.travelPlayerButton.TargetPlayer = getTarget();
-                    setTargetOutline(role.travelPlayerButton.TargetPlayer?.PlayerControl, role.GetRoleColor());
-                }
-                else
-                {
-                    setTargetOutline(role.travelPlayerButton.MarkedPlayer?.PlayerControl, role.GetRoleColor());
-                }
-            }
-            else if (player.MainRole is LightPrayer)
-            {
-                var role = (LightPrayer)player.MainRole;
-                role.blessButton.Target = getTarget();
-                setTargetOutline(role.blessButton.Target?.PlayerControl, role.GetRoleColor());
-            }
-            else if (player.MainRole is NoneFaceMan)
-            {
-                var role = (NoneFaceMan)player.MainRole;
-                role.samplingButton.Target = getTarget();
-                setTargetOutline(role.samplingButton.Target?.PlayerControl, role.GetRoleColor());
-            }
-            else if (player.MainRole is ArsonExpert)
-            {
-                var role = (ArsonExpert)player.MainRole;
-                role.oiledButton.Target = getTarget(hodePlayer: role.oiledButton.OiledTarget?.PlayerControl.Data, excludeIdList: role.oiledPlayerIds);
-                setTargetOutline(role.oiledButton.Target?.PlayerControl, role.GetRoleColor());
-            }
-            else if (player.MainRole is SerialKiller)
-            {
-                var role = (SerialKiller)player.MainRole;
-                role.serialKillerButton.Target = getTarget();
-                setTargetOutline(role.serialKillerButton.Target?.PlayerControl, role.GetRoleColor());
+                if(btn is TargetedButton)
+                    ((TargetedButton)btn).UpdateTarget();
             }
         }
 
@@ -180,59 +142,6 @@ namespace MysteryOpertion.Patches
 
 
             }
-        }
-
-        private static Player getTarget(bool canTargetPlayerInVents = false, PlayerInfo hodePlayer = null, List<byte> excludeIdList = null)
-        {
-            PlayerControl target = null;
-            float distances = GameOptionsData.KillDistances[Mathf.Clamp(PlayerControl.GameOptions.KillDistance, 0, 2)];
-
-            if (!ShipStatus.Instance) 
-                return null;
-
-            var sourcePosition = PlayerControl.LocalPlayer.GetTruePosition();
-
-            //判断持续目标是否脱离范围
-            if(hodePlayer is not null)
-            {
-                Vector2 vector = hodePlayer.Object.GetTruePosition() - sourcePosition;
-                if (vector.magnitude <= distances && !PhysicsHelpers.AnyNonTriggersBetween(sourcePosition, vector.normalized, vector.magnitude, Constants.ShipAndObjectsMask))
-                {
-                    return Players.GetPlayer(hodePlayer.Object);
-                }
-            }
-
-            var playerInfos = GameData.Instance.AllPlayers;
-            foreach(var playerInfo in playerInfos)
-            {
-                if(playerInfo.Disconnected || playerInfo.IsDead || playerInfo.PlayerId == PlayerControl.LocalPlayer.PlayerId) continue;
-
-                if (excludeIdList != null && excludeIdList.Contains(playerInfo.PlayerId)) continue;
-
-                var obj = playerInfo.Object;
-                if (obj == null) continue;
-
-                if (!obj.inVent || canTargetPlayerInVents)
-                {
-                    Vector2 vector = obj.GetTruePosition() - sourcePosition;
-                    if (vector.magnitude <= distances && !PhysicsHelpers.AnyNonTriggersBetween(sourcePosition, vector.normalized, vector.magnitude, Constants.ShipAndObjectsMask))
-                    {
-                        target = obj;
-                        distances = vector.magnitude;
-                    }
-                }
-            }
-
-            return target == null ? null : Players.GetPlayer(target);
-        }
-
-        private static void setTargetOutline(PlayerControl target, Color color)
-        {
-            if (target == null || target.MyRend == null) 
-                return;
-
-            target.MyRend.material.SetFloat("_Outline", 1f);
-            target.MyRend.material.SetColor("_OutlineColor", color);
         }
     }
 
@@ -308,7 +217,7 @@ namespace MysteryOpertion.Patches
             var player = Players.GetLocalPlayer();
             if (!__instance.AllTasksCompleted() || player is null || player.MainRole is not Eavesdropper) return;
 
-            RPCFunctions.ShowCenterMessage(TextDictionary.AllTaskComplete(__instance.Data.PlayerName));
+            ((Eavesdropper)player.MainRole).ShowAllTaskCompleteMessage(__instance);
         }
     }
 }

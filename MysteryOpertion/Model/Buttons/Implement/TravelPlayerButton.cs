@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MysteryOpertion.Model.Buttons.Implement
 {
-    public class TravelPlayerButton : ButtonBase
+    public class TravelPlayerButton : ButtonBase, TargetedButton
     {
         public Player TargetPlayer { get; set; }
         public Player MarkedPlayer { get; set; }
@@ -71,6 +71,19 @@ namespace MysteryOpertion.Model.Buttons.Implement
         public override void OnMeetingEnd()
         {
             Timer = CooldownTime;
+        }
+
+        public void UpdateTarget()
+        {
+            if (MarkedPlayer == null)
+            {
+                TargetPlayer = ToolBox.GetTarget();
+                ToolBox.SetPlayerOutline(TargetPlayer?.PlayerControl, RoleInfoDictionary.Traveller.Color);
+            }
+            else
+            {
+                ToolBox.SetPlayerOutline(MarkedPlayer?.PlayerControl, RoleInfoDictionary.Traveller.Color);
+            }
         }
     }
 }

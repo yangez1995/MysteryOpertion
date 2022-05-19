@@ -4,12 +4,13 @@ using System.Text;
 
 namespace MysteryOpertion.Model.Buttons.Implement
 {
-    public class ArsonExpertOiledButton : ButtonBase
+    public class ArsonExpertOiledButton : ButtonBase, TargetedButton
     {
-        public float oiledRequiredTime;
+        private float oiledRequiredTime;
 
         public Player Target { get; set; }
         public Player OiledTarget { get; set; }
+        public List<byte> OiledPlayerIds { get; set; }
 
         public ArsonExpertOiledButton(Player player) : base(player)
         {
@@ -18,6 +19,7 @@ namespace MysteryOpertion.Model.Buttons.Implement
             this.text = ButtonTextDictionary.ArsonExpertOiledButtonText;
 
             this.oiledRequiredTime = 2;
+            this.OiledPlayerIds = new List<byte>();
         }
 
         public override bool IsAvailable()
@@ -40,6 +42,12 @@ namespace MysteryOpertion.Model.Buttons.Implement
         {
             OiledTarget = null;
             Timer = CooldownTime;
+        }
+
+        public void UpdateTarget()
+        {
+            Target = ToolBox.GetTarget(hodePlayer: OiledTarget?.PlayerControl.Data, excludeIdList: OiledPlayerIds);
+            ToolBox.SetPlayerOutline(Target?.PlayerControl, RoleInfoDictionary.ArsonExpert.Color);
         }
     }
 }

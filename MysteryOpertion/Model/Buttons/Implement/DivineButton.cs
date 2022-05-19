@@ -84,13 +84,6 @@ namespace MysteryOpertion.Model.Buttons.Implement
                     message = TextDictionary.DivineCrewmate(randomPlayer.PlayerControl.Data.PlayerName);
             }
 
-
-            //var sourceId = player.playerControl.PlayerId;
-            //var targetId = Target.playerControl.PlayerId;
-            //MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RPCFuncType.LightPrayerBless, SendOption.Reliable);
-            //writer.Write(sourceId);
-            //writer.Write(targetId);
-            //AmongUsClient.Instance.FinishRpcImmediately(writer);
             RPCFunctions.ShowCenterMessage(message);
 
             Timer = CooldownTime;

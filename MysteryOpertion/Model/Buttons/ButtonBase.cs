@@ -15,6 +15,11 @@ namespace MysteryOpertion.Model.Buttons
         void OnMeetingEnd();
     }
 
+    public interface TargetedButton
+    {
+        void UpdateTarget();
+    }
+
     public abstract class ButtonBase : Button
     {
         protected ActionButton actionButton;

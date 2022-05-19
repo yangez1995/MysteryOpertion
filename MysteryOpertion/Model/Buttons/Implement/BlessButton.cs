@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MysteryOpertion.Model.Buttons.Implement
 {
-    public class BlessButton : ButtonBase
+    public class BlessButton : ButtonBase, TargetedButton
     {
         public Player Target { get; set; }
 
@@ -42,6 +42,12 @@ namespace MysteryOpertion.Model.Buttons.Implement
         public override void OnMeetingEnd()
         {
             Timer = CooldownTime;
+        }
+
+        public void UpdateTarget()
+        {
+            Target = ToolBox.GetTarget();
+            ToolBox.SetPlayerOutline(Target?.PlayerControl, RoleInfoDictionary.LightPrayer.Color);
         }
     }
 }
