@@ -9,69 +9,31 @@ namespace MysteryOpertion
 {
     public static class RoleInfoDictionary
     {
-        public static readonly RoleInfo Crewmate = new RoleInfo { Name = "船员", Blurb = "白板瑟瑟发抖", Target = "完成任务 找出内鬼", Color = Color.white };
-        public static readonly RoleInfo Sheriff = new RoleInfo { Name = "治安官", Blurb = "毙掉内鬼", Target = "杀内鬼 别杀好人", Color = Color.yellow };
-        public static readonly RoleInfo Traveller = new RoleInfo { Name = "旅行家", Blurb = "想去哪就去哪", Target = "使用能力快速移动", Color = Color.cyan };
-        public static readonly RoleInfo MechanicExpert = new RoleInfo { Name = "机械专家", Blurb = "没啥是螺丝刀解决不了的", Target = "快速维修破坏", Color = Color.blue };
-        public static readonly RoleInfo LightPrayer = new RoleInfo { Name = "祈光人", Blurb = "赞美太阳!", Target = "不惧黑暗 祝福队友", Color = new Color32(250, 250, 210, byte.MaxValue) };
-        public static readonly RoleInfo Judge = new RoleInfo { Name = "法官", Blurb = "掌控投票 就是掌控胜利", Target = "在投票环节大显身手", Color = new Color32(32, 77, 66, byte.MaxValue) };
-        public static readonly RoleInfo DoomBait = new RoleInfo { Name = "厄运诱饵", Blurb = "画个圈圈诅咒凶手", Target = "杀你的人会被诅咒", Color = new Color32(205, 133, 0, byte.MaxValue) };
-        public static readonly RoleInfo Coroner = new RoleInfo { Name = "验尸官", Blurb = "尸体可不会说谎", Target = "检查尸体 找出线索", Color = new Color32(45, 106, 165, byte.MaxValue) };
-        public static readonly RoleInfo Diviner = new RoleInfo { Name = "占卜家", Blurb = "老兄 要算一卦吗", Target = "通过占卜获得启示", Color = new Color32(171, 230, 255, byte.MaxValue) };
-        public static readonly RoleInfo Eavesdropper = new RoleInfo { Name = "窃听者", Blurb = "嘘! 看眼YY有没有人偷听", Target = "窃听周围的信号", Color = new Color32(207, 207, 207, byte.MaxValue) };
-        public static readonly RoleInfo CurseMage = new RoleInfo { Name = "咒法师", Blurb = "名字 + 职业 + 记小本本 = ?", Target = "知晓职业发动诅咒", Color = Color.yellow };
+        public static readonly RoleInfo Crewmate = new RoleInfo { Type = RoleType.Crewmate, Name = "船员", Blurb = "白板瑟瑟发抖", Target = "完成任务 找出内鬼", Color = Color.white };
+        public static readonly RoleInfo Sheriff = new RoleInfo { Type = RoleType.Sheriff, Name = "治安官", Blurb = "毙掉内鬼", Target = "杀内鬼 别杀好人", Color = Color.yellow };
+        public static readonly RoleInfo Traveller = new RoleInfo { Type = RoleType.Traveller, Name = "旅行家", Blurb = "想去哪就去哪", Target = "使用能力快速移动", Color = Color.cyan };
+        public static readonly RoleInfo MechanicExpert = new RoleInfo { Type = RoleType.MechanicExpert, Name = "机械专家", Blurb = "没啥是螺丝刀解决不了的", Target = "快速维修破坏", Color = Color.blue };
+        public static readonly RoleInfo LightPrayer = new RoleInfo { Type = RoleType.LightPrayer, Name = "祈光人", Blurb = "赞美太阳!", Target = "不惧黑暗 祝福队友", Color = new Color32(250, 250, 210, byte.MaxValue) };
+        public static readonly RoleInfo Judge = new RoleInfo { Type = RoleType.Judge, Name = "法官", Blurb = "掌控投票 就是掌控胜利", Target = "在投票环节大显身手", Color = new Color32(32, 77, 66, byte.MaxValue) };
+        public static readonly RoleInfo DoomBait = new RoleInfo { Type = RoleType.DoomBait, Name = "厄运诱饵", Blurb = "画个圈圈诅咒凶手", Target = "杀你的人会被诅咒", Color = new Color32(205, 133, 0, byte.MaxValue) };
+        public static readonly RoleInfo Coroner = new RoleInfo { Type = RoleType.Coroner, Name = "验尸官", Blurb = "尸体可不会说谎", Target = "检查尸体 找出线索", Color = new Color32(45, 106, 165, byte.MaxValue) };
+        public static readonly RoleInfo Diviner = new RoleInfo { Type = RoleType.Diviner, Name = "占卜家", Blurb = "老兄 要算一卦吗", Target = "通过占卜获得启示", Color = new Color32(171, 230, 255, byte.MaxValue) };
+        public static readonly RoleInfo Eavesdropper = new RoleInfo { Type = RoleType.Eavesdropper, Name = "窃听者", Blurb = "嘘! 看眼YY有没有人偷听", Target = "窃听周围的信号", Color = new Color32(207, 207, 207, byte.MaxValue) };
+        public static readonly RoleInfo CurseMage = new RoleInfo { Type = RoleType.CurseMage, Name = "咒法师", Blurb = "名字 + 职业 + 记小本本 = ?", Target = "知晓职业发动诅咒", Color = Color.yellow };
 
-        public static readonly RoleInfo ArsonExpert = new RoleInfo { Name = "纵火家", Blurb = "艺术就是 纵火!", Target = "给所有人涂油", Color = new Color32(250, 106, 106, byte.MaxValue) };
+        public static readonly RoleInfo ArsonExpert = new RoleInfo { Type = RoleType.ArsonExpert, Name = "纵火家", Blurb = "艺术就是 纵火!", Target = "给所有人涂油", Color = new Color32(250, 106, 106, byte.MaxValue) };
+        public static readonly RoleInfo Jester = new RoleInfo { Type = RoleType.Jester, Name = "小丑", Blurb = "得想办法整个节目", Target = "想办法被投出去", Color = new Color32(236, 98, 165, byte.MaxValue) };
+        public static readonly RoleInfo Spectator = new RoleInfo { Type = RoleType.Spectator, Name = "观众", Blurb = "人生如看戏", Target = "猜出其他人的职业", Color = new Color32(127, 255, 212, byte.MaxValue) };
 
-        public static readonly RoleInfo Impostor = new RoleInfo { Name = "伪装者", Blurb = "杀光他们", Target = "杀死好人 破坏设施", Color = Color.red };
-        public static readonly RoleInfo NoneFaceMan = new RoleInfo { Name = "无面人", Blurb = "没人知道你的真面目", Target = "变脸成其他玩家", Color = Color.red };
-        public static readonly RoleInfo SerialKiller = new RoleInfo { Name = "连环杀手", Blurb = "天啊 再不砍点什么我要疯了", Target = "长时间不杀人会发疯", Color = Color.red };
-        public static readonly RoleInfo CurseWarlock = new RoleInfo { Name = "咒术师", Blurb = "名字 + 职业 + 记小本本 = ?", Target = "知晓职业发动诅咒", Color = Color.red };
+        public static readonly RoleInfo Impostor = new RoleInfo { Type = RoleType.Impostor, Name = "伪装者", Blurb = "杀光他们", Target = "杀死好人 破坏设施", Color = Color.red };
+        public static readonly RoleInfo NoneFaceMan = new RoleInfo { Type = RoleType.NoneFaceMan, Name = "无面人", Blurb = "没人知道你的真面目", Target = "变脸成其他玩家", Color = Color.red };
+        public static readonly RoleInfo SerialKiller = new RoleInfo { Type = RoleType.SerialKiller, Name = "连环杀手", Blurb = "天啊 再不砍点什么我要疯了", Target = "长时间不杀人会发疯", Color = Color.red };
+        public static readonly RoleInfo CurseWarlock = new RoleInfo { Type = RoleType.CurseWarlock, Name = "咒术师", Blurb = "名字 + 职业 + 记小本本 = ?", Target = "知晓职业发动诅咒", Color = Color.red };
+        public static readonly RoleInfo BloodyHunter = new RoleInfo { Type = RoleType.BloodyHunter, Name = "浴血猎人", Blurb = "杀戮 然后进化", Target = "每次击杀后都能变得更强", Color = Color.red };
+        public static readonly RoleInfo Lurker = new RoleInfo { Type = RoleType.Lurker, Name = "潜伏者", Blurb = "藏好自己 逆转局势", Target = "在队友死光前不能击杀", Color = Color.red};
+
+
     }
-
-    //public static class RoleNameDictionary
-    //{
-    //    public const string Crewmate = "船员";
-    //    public const string Sheriff = "治安官";
-    //    public const string Traveller = "旅行家";
-    //    public const string MechanicExpert = "机械专家";
-    //    public const string LightPrayer = "祈光人";
-    //    public const string Judge = "法官";
-    //    public const string DoomBait = "厄运诱饵";
-    //    public const string Coroner = "验尸官";
-    //    public const string Diviner = "占卜家";
-    //    public const string Eavesdropper = "窃听者";
-    //    public const string CurseMage = "咒法师";
-
-    //    public const string ArsonExpert = "纵火家";
-
-    //    public const string Impostor = "伪装者";
-    //    public const string NoneFaceMan = "无面人";
-    //    public const string SerialKiller = "连环杀手";
-    //    public const string CurseWarlock = "咒术师";
-    //}
-
-    //public static class RoleBlurbDictionary
-    //{
-    //    public const string CrewmateBlurb = "白板瑟瑟发抖";
-    //    public const string SheriffBlurb = "毙掉内鬼";
-    //    public const string TravellerBlurb = "想去哪就去哪";
-    //    public const string MechanicExpertBlurb = "你有菜刀 我有螺丝刀";
-    //    public const string LightPrayerBlurb = "赞美太阳!";
-    //    public const string JudgeBlurb = "掌控投票 就是掌控胜利";
-    //    public const string DoomBaitBlurb = "画个圈圈诅咒凶手";
-    //    public const string CoronerBlurb = "尸体可不会说谎";
-    //    public const string DivinerBlurb = "老兄 要算一卦吗";
-    //    public const string EavesdropperBlurb = "嘘! 看眼YY有没有人偷听";
-    //    public const string CurseMageBlurb = "名字 + 职业 + 记小本本 = ？";
-
-    //    public const string ArsonExpertBlurb = "艺术就是 纵火!";
-
-    //    public const string ImpostorBlurb = "杀光他们";
-    //    public const string NoneFaceManBlurb = "没人知道你的真面目";
-    //    public const string SerialKillerBlurb = "天啊 再不砍点什么我要疯了";
-    //    public const string CurseWarlockBlurb = "名字 + 职业 + 记小本本 = ？";
-    //}
 
     public static class ButtonTextDictionary
     {
@@ -108,9 +70,10 @@ namespace MysteryOpertion
     public static class TextDictionary
     {
         public const string Role = "职业";
+        public static string[] RoleAssignPriority = { "不分配", "小概率分配", "中概率分配", "大概率分配", "优先分配"};
+
         public const string DivineNonDead = "本回合没人死亡";
         public const string DivineHasDead = "本回合已经有人死亡";
-
         public static string DivineCrewmate(string playerName)
         {
             return $"{playerName}是船员";
@@ -157,5 +120,66 @@ namespace MysteryOpertion
         {
             return $"最近被完成的任务是 {taskName}";
         }
+    }
+
+    public static class ConfigKeyDictionary
+    {
+        public const string UserRecommendConfig = "UserRecommendConfig";
+        
+        public const string CrewmateCount = "CrewmateCount";
+        public const string ImpostorCount = "ImpostorCount";
+        public const string ChaosCount = "ChaosCount";
+        public const string LurkerCount = "LurkerCount";
+        
+        public const string CoronerPriority = "CoronerPriority";
+        public const string CurseMagePriority = "CurseMagePriority";
+        public const string CurseMageTotalCount = "CurseMageTotalCount";
+        public const string CurseMageCount = "CurseMageCount";
+        public const string DivinerPriority = "DivinerPriority";
+        public const string DivinerSkillCD = "DivinerSkillCD";
+        public const string DivinerSkillCost = "DivinerSkillCost";
+        public const string DoomBaitPriority = "DoomBaitPriority";
+        public const string DoomBaitDoomValue = "DoomBaitDoomValue";
+        public const string EavesdropperPriority = "EavesdropperPriority";
+        
+        public const string JudgePriority = "JudgePriority";
+        public const string JudgeSeeVoteColor = "JudgeSeeVoteColor";
+
+        public const string LightPrayerPriority = "LightPrayerPriority";
+        public const string LightPrayerSkillValue = "LightPrayerSkillValue";
+        public const string LightPrayerSkillCD = "LightPrayerSkillCD";
+        public const string MechanicExpertPriority = "MechanicExpertPriority";
+        public const string MechanicExpertSkillCost = "MechanicExpertSkillCost";
+        
+        public const string SheriffPriority = "SheriffPriority";
+        public const string SheriffSkillCD = "SheriffSkillCD";
+        public const string SheriffTotalCount = "SheriffTotalCount";
+        public const string SheriffCanKillChaos = "SheriffCanKillChaos";
+
+        public const string TravellerPriority = "TravellerPriority";
+        public const string TravellerSkill1CD = "TravellerSkill1CD";
+        public const string TravellerSkill1Cost = "TravellerSkill1Cost";
+        public const string TravellerSkill2CD = "TravellerSkill2CD";
+        public const string TravellerSkill2Cost = "TravellerSkill2Cost";
+
+        public const string BloodyHunterPriority = "BloodyHunterPriority";
+        public const string BloodyHunterLevelUpCD = "BloodyHunterLevelUpCD";
+        public const string BloodyHunterLevelUpSan = "BloodyHunterLevelUpSan";
+        public const string BloodyHunterCurse = "BloodyHunterCurse";
+        public const string BloodyHunterInvincible = "BloodyHunterInvincible";
+        public const string CurseWarlockPriority = "CurseWarlockPriority";
+        public const string CurseWarlockTotalCount = "CurseWarlockTotalCount";
+        public const string CurseWarlockCount = "CurseWarlockCount";
+        public const string NoneFaceManPriority = "NoneFaceManPriority";
+        public const string SerialKillerPriority = "SerialKillerPriority";
+        public const string SerialKillerSkillCD = "SerialKillerSkillCD";
+        public const string SerialKillerSkillValue = "SerialKillerSkillValue";
+        public const string SerialKillerSanTimer = "SerialKillerSanTimer";
+        public const string ArsonExpertPriority = "ArsonExpertPriority";
+        public const string ArsonExpertSkillCD = "ArsonExpertSkillCD";
+        public const string ArsonExpertSkillNeed = "ArsonExpertSkillNeed";
+        public const string JesterPriority = "JesterPriority";
+        public const string SpectatorPriority = "SpectatorPriority";
+        public const string SpectatorWinCount = "SpectatorWinCount";
     }
 }

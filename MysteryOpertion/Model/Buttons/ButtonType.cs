@@ -17,6 +17,7 @@ namespace MysteryOpertion.Model.Buttons
         ArsonExpertOiledButton,
         ArsonExpertPlaceDollButton,
         DivineButton,
-        SerialKillerButton
+        SerialKillerButton,
+        BloodyHunterButton
     }
 }

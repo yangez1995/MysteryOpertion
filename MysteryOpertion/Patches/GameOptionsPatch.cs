@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TMPro;
 using UnityEngine;
 
 namespace MysteryOpertion.Patches
@@ -20,26 +21,31 @@ namespace MysteryOpertion.Patches
             //    GameObject.Find(ModSettingsName).transform.FindChild("GameGroup").FindChild("Text").GetComponent<TMPro.TextMeshPro>().SetText("The Other Roles Settings");
             //    return;
             //}
+            //
+            //if (template == null) return;
+            var optionOriginal = UnityEngine.Object.FindObjectsOfType<StringOption>().FirstOrDefault();
 
-            var template = UnityEngine.Object.FindObjectsOfType<StringOption>().FirstOrDefault();
-            if (template == null) return;
-
-            var gameSettings = GameObject.Find("Game Settings");
+            var gameSettingsOriginal = GameObject.Find("Game Settings");
             var gameSettingMenu = UnityEngine.Object.FindObjectsOfType<GameSettingMenu>().FirstOrDefault();
 
-            var modSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
-            var modSettingsMenu = modSettings.transform.FindChild("GameGroup").FindChild("SliderInner").GetComponent<GameOptionsMenu>();
-            modSettings.name = ModSettingsName;
+            var modRoleSettings = UnityEngine.Object.Instantiate(gameSettingsOriginal, gameSettingsOriginal.transform.parent);
+            var modRoleTitle = modRoleSettings.transform.FindChild("GameGroup").FindChild("Text").GetComponent<TextMeshPro>();
+            modRoleTitle.SetText("诡秘行动职业设置");
+            var modeRoleMenu = modRoleSettings.transform.FindChild("GameGroup").FindChild("SliderInner").GetComponent<GameOptionsMenu>();
+
+            //var modSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
+            //var modSettingsMenu = modSettings.transform.FindChild("GameGroup").FindChild("SliderInner").GetComponent<GameOptionsMenu>();
+            //modSettings.name = ModSettingsName;
 
             var roleTab = GameObject.Find("RoleTab");
             var gameTab = GameObject.Find("GameTab");
-            var modTab = UnityEngine.Object.Instantiate(roleTab, roleTab.transform.parent);
+            var modRoleTab = UnityEngine.Object.Instantiate(roleTab, roleTab.transform.parent);
 
             roleTab.transform.position += Vector3.left * 0.5f;
             gameTab.transform.position += Vector3.left * 0.5f;
-            modTab.transform.position += Vector3.right * 0.5f;
+            modRoleTab.transform.position += Vector3.right * 0.5f;
 
-            var tabs = new GameObject[] { gameTab, roleTab, modTab };
+            var tabs = new GameObject[] { gameTab, roleTab, modRoleTab };
             for (int i = 0; i < tabs.Length; i++)
             {
                 var button = tabs[i].GetComponentInChildren<PassiveButton>();
@@ -49,7 +55,7 @@ namespace MysteryOpertion.Patches
                 button.OnClick.AddListener((UnityEngine.Events.UnityAction)(() => {
                     gameSettingMenu.RegularGameSettings.SetActive(false);
                     gameSettingMenu.RolesSettings.gameObject.SetActive(false);
-                    modSettings.gameObject.SetActive(false);
+                    modRoleSettings.gameObject.SetActive(false);
                     gameSettingMenu.GameSettingsHightlight.enabled = false;
                     gameSettingMenu.RolesSettingsHightlight.enabled = false;
 
@@ -65,20 +71,19 @@ namespace MysteryOpertion.Patches
                     }
                     else if (copiedIndex == 2)
                     {
-                        modSettings.gameObject.SetActive(true);
+                        modRoleSettings.gameObject.SetActive(true);
                     }
                 }));
             }
 
-            foreach (OptionBehaviour option in modSettingsMenu.GetComponentsInChildren<OptionBehaviour>())
+            foreach (OptionBehaviour option in modeRoleMenu.GetComponentsInChildren<OptionBehaviour>())
                 UnityEngine.Object.Destroy(option.gameObject);
 
+            
             List<OptionBehaviour> list = new List<OptionBehaviour>();
-            for (int i = 0; i < ConfigSelecters.selecters.Count; i++)
+            foreach(var selecter in ConfigLoader.selecters.Values)
             {
-                ConfigSelecter selecter = ConfigSelecters.selecters[i];
-
-                StringOption stringOption = UnityEngine.Object.Instantiate(template, modSettingsMenu.transform);
+                StringOption stringOption = UnityEngine.Object.Instantiate(optionOriginal, modeRoleMenu.transform);
                 list.Add(stringOption);
                 stringOption.OnValueChanged = new Action<OptionBehaviour>((o) => { });
                 stringOption.TitleText.text = selecter.Name;
@@ -89,8 +94,9 @@ namespace MysteryOpertion.Patches
                 selecter.Behaviour = stringOption;
                 selecter.Behaviour.gameObject.SetActive(true);
             }
-            modSettingsMenu.Children = list.ToArray();
-            modSettings.gameObject.SetActive(false);
+
+            modeRoleMenu.Children = list.ToArray();
+            modRoleSettings.gameObject.SetActive(false);
         }
     }
 
@@ -108,16 +114,28 @@ namespace MysteryOpertion.Patches
     {
         public static void Postfix(GameOptionsMenu __instance)
         {
+            __instance.GetComponentInParent<Scroller>().ContentYBounds.max = 55F;
+
             float offset = 2.5f;
-            foreach(var selecter in ConfigSelecters.selecters)
+            foreach(var selecter in ConfigLoader.selecters.Values)
             {
                 if (selecter.Behaviour is null || selecter.Behaviour.gameObject is null) continue;
 
-                selecter.Behaviour.gameObject.SetActive(true);
-                offset -= 0.5f;
+                bool isActive = true;
+                var parent = selecter.Parent;
+                while (parent != null && isActive)
+                {
+                    isActive = parent.Index != 0;
+                    parent = parent.Parent;
+                }
 
-                var vector3 = new Vector3(selecter.Behaviour.transform.localPosition.x, offset, selecter.Behaviour.transform.localPosition.z);
-                selecter.Behaviour.transform.localPosition = vector3;
+                selecter.Behaviour.gameObject.SetActive(isActive);
+                if (isActive)
+                {
+                    offset -= selecter.MarginTop ? 0.75f : 0.5f;
+                    var vector3 = new Vector3(selecter.Behaviour.transform.localPosition.x, offset, selecter.Behaviour.transform.localPosition.z);
+                    selecter.Behaviour.transform.localPosition = vector3;
+                }
             }
         }
     }
@@ -127,7 +145,7 @@ namespace MysteryOpertion.Patches
     {
         public static bool Prefix(StringOption __instance)
         {
-            ConfigSelecter selecter = ConfigSelecters.selecters.FirstOrDefault(it => it.Behaviour == __instance);
+            ConfigSelecter selecter = ConfigLoader.selecters.Values.FirstOrDefault(it => it.Behaviour == __instance);
             if (selecter is null) return true;
             
             __instance.OnValueChanged = new Action<OptionBehaviour>((o) => { });
@@ -144,7 +162,7 @@ namespace MysteryOpertion.Patches
     {
         public static bool Prefix(StringOption __instance)
         {
-            ConfigSelecter selecter = ConfigSelecters.selecters.FirstOrDefault(it => it.Behaviour == __instance);
+            ConfigSelecter selecter = ConfigLoader.selecters.Values.FirstOrDefault(it => it.Behaviour == __instance);
             if (selecter is null) return true;
 
             selecter.Increase();
@@ -157,7 +175,7 @@ namespace MysteryOpertion.Patches
     {
         public static bool Prefix(StringOption __instance)
         {
-            ConfigSelecter selecter = ConfigSelecters.selecters.FirstOrDefault(it => it.Behaviour == __instance);
+            ConfigSelecter selecter = ConfigLoader.selecters.Values.FirstOrDefault(it => it.Behaviour == __instance);
             if (selecter is null) return true;
 
             selecter.Decrease();

@@ -4,17 +4,24 @@ using Hazel;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MysteryOpertion.Model.Roles.ChaosRoles;
 
 namespace MysteryOpertion.Model.Buttons.Implement
 {
     public class SheriffKillButton : ButtonBase, TargetedButton
     {
+        public int UsageCount { get; set; }
+        public bool CanKillChaos { get; set; }
         public Player Target { get; set; }
 
         public SheriffKillButton(Player player) : base(player)
         {
             sprite = HudManager.Instance.KillButton.graphic.sprite;
             text = ButtonTextDictionary.SheriffKillButtonText;
+
+            UsageCount = ConfigLoader.selecters[ConfigKeyDictionary.SheriffTotalCount].GetInt32Value();
+            CanKillChaos = ConfigLoader.selecters[ConfigKeyDictionary.SheriffCanKillChaos].GetBoolValue();
+            CooldownTime = ConfigLoader.selecters[ConfigKeyDictionary.SheriffSkillCD].GetFloatValue();
         }
 
         public override bool IsAvailable()
@@ -24,21 +31,14 @@ namespace MysteryOpertion.Model.Buttons.Implement
 
         public override bool IsShow()
         {
-            return player?.PlayerControl == PlayerControl.LocalPlayer && !player.PlayerControl.Data.IsDead;
+            return player?.PlayerControl == PlayerControl.LocalPlayer && !player.PlayerControl.Data.IsDead && UsageCount > 0;
         }
 
         public override void OnClick()
         {
             PlayerControl source = player.PlayerControl;
-            PlayerControl target;
-            if (Target.MainRole is Impostor)
-            {
-                target = Target.PlayerControl;
-            }
-            else
-            {
-                target = player.PlayerControl;
-            }
+            PlayerControl target = Target.MainRole is Impostor || (Target.MainRole is Chaos && CanKillChaos)
+                ? Target.PlayerControl : target = player.PlayerControl;
 
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RPCFuncType.CustomMurderPlayer, SendOption.Reliable);
             writer.Write(source.PlayerId);
@@ -47,6 +47,7 @@ namespace MysteryOpertion.Model.Buttons.Implement
             RPCFunctions.CustomMurderPlayer(source.PlayerId, target.PlayerId);
 
             Timer = CooldownTime;
+            UsageCount--;
         }
 
         public override void OnMeetingEnd()

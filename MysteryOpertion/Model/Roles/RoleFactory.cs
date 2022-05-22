@@ -25,11 +25,15 @@ namespace MysteryOpertion.Model.Roles
                 case RoleType.CurseMage: return new CurseMage(player);
 
                 case RoleType.ArsonExpert: return new ArsonExpert(player);
+                case RoleType.Jester: return new Jester(player);
+                case RoleType.Spectator: return new Spectator(player);
 
                 case RoleType.Impostor: return new Impostor(player); 
                 case RoleType.NoneFaceMan: return new NoneFaceMan(player);
                 case RoleType.SerialKiller: return new SerialKiller(player);
                 case RoleType.CurseWarlock: return new CurseWarlock(player);
+                case RoleType.BloodyHunter: return new BloodyHunter(player);
+                case RoleType.Lurker: return new Lurker(player);
                 default: return null;
             }
         }

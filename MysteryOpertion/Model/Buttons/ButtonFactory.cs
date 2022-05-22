@@ -23,6 +23,7 @@ namespace MysteryOpertion.Model.Buttons
                 case ButtonType.ArsonExpertPlaceDollButton: return new ArsonExpertPlaceDollButton(player);
                 case ButtonType.DivineButton: return new DivineButton(player);
                 case ButtonType.SerialKillerButton: return new SerialKillerButton(player);
+                case ButtonType.BloodyHunterButton: return new BloodyHunterButton(player);
                 default: return null;
             }
         }

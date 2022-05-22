@@ -9,7 +9,9 @@ namespace MysteryOpertion
     public static class GameNote
     {
         //获胜方式记录
-        public static bool ArsonExpertWin = false;
+        public static Player ArsonExpertWinner = null;
+        public static Player JesterWinner = null;
+        public static Player SpectatorWinner = null;
 
         //死亡记录
         public static List<DeathRecord> DeathRecords = new List<DeathRecord>();
@@ -23,11 +25,15 @@ namespace MysteryOpertion
 
         public static void ClearGameNote()
         {
-            ArsonExpertWin = false;
+            ArsonExpertWinner = null;
+            JesterWinner = null;
+            SpectatorWinner = null;
 
             DeathRecords = new List<DeathRecord>();
             ExistingRoles = new List<string>();
             NonExistingRoles = new List<string>();
+
+            TaskComplete = new List<TaskRecord>();
         }
     }
 }

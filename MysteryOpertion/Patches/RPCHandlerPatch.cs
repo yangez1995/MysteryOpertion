@@ -52,6 +52,16 @@ namespace MysteryOpertion.Patches
                     targetId = reader.ReadByte();
                     RPCFunctions.LightPrayerBless(sourceId, targetId);
                     break;
+                case (byte)RPCFuncType.Morph:
+                    sourceId = reader.ReadByte();
+                    targetId = reader.ReadByte();
+                    RPCFunctions.Morph(sourceId, targetId);
+                    break;
+                case (byte)RPCFuncType.CurseKill:
+                    sourceId = reader.ReadByte();
+                    targetId = reader.ReadByte();
+                    RPCFunctions.CurseKill(sourceId, targetId);
+                    break;
                 default:
                     break;
             }

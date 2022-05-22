@@ -90,11 +90,3 @@ public static class DebugManager
             .Select(s => s[random.Next(s.Length)]).ToArray());
     }
 }
-
-public static class ConfigLoader
-{
-    public static void Load()
-    {
-        ConfigSelecterFactory.Produce("UserRecommendConfig", "使用推荐配置", new string[] {"是", "否"});
-    }
-}

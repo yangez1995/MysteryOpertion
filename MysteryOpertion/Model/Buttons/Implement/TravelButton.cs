@@ -12,14 +12,14 @@ namespace MysteryOpertion.Model.Buttons.Implement
 
         public TravelButton(Player player) : base(player) 
         {
-            this.CooldownTime = 10f;
-            this.SanityCost = 10;
+            this.CooldownTime = ConfigLoader.selecters[ConfigKeyDictionary.TravellerSkill1CD].GetFloatValue();
+            this.SanityCost = ConfigLoader.selecters[ConfigKeyDictionary.TravellerSkill1Cost].GetInt32Value();
             this.text = ButtonTextDictionary.TravelButtonText_Mark;
         }
 
         public override bool IsAvailable()
         {
-            return player.PlayerControl.CanMove;
+            return player.PlayerControl.CanMove && player.SanityPoint > SanityCost;
         }
 
         public override bool IsShow()

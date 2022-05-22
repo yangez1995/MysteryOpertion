@@ -3,6 +3,7 @@ using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MysteryOpertion.Model;
 
 namespace MysteryOpertion.Patches
 {
@@ -18,25 +19,19 @@ namespace MysteryOpertion.Patches
 
             public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ref EndGameResult endGameResult)
             {
-                // Arsonist win
-                if (GameNote.ArsonExpertWin)
-                {
-                    TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
-                    ResetWinnerListByRole(RoleInfoDictionary.ArsonExpert.Name);
-                }
+                if (GameNote.ArsonExpertWinner is not null)
+                    ResetWinnerListByRole(GameNote.ArsonExpertWinner);
+                if (GameNote.JesterWinner is not null)
+                    ResetWinnerListByRole(GameNote.JesterWinner);
+                if (GameNote.SpectatorWinner is not null)
+                    ResetWinnerListByRole(GameNote.SpectatorWinner);
             }
 
-            private static void ResetWinnerListByRole(string roleName)
+            private static void ResetWinnerListByRole(Player winner)
             {
                 TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
-                foreach(var player in Players.playerList)
-                {
-                    if(player.MainRole.GetRoleName() == roleName)
-                    {
-                        WinningPlayerData wpd = new WinningPlayerData(player.PlayerControl.Data);
-                        TempData.winners.Add(wpd);
-                    }
-                }
+                WinningPlayerData wpd = new WinningPlayerData(winner.PlayerControl.Data);
+                TempData.winners.Add(wpd);
             }
         }
     }

@@ -123,7 +123,33 @@ namespace MysteryOpertion
 
         public static void CurseKill(byte sourceId, byte targetId)
         {
+            if(MeetingHud.Instance is null) return;
 
+            Player source = Players.GetPlayer(sourceId);
+            Player target = sourceId == targetId ? source : Players.GetPlayer(targetId);
+
+            target.PlayerControl.Exiled();
+            if (Constants.ShouldPlaySfx()) 
+                SoundManager.Instance.PlaySound(target.PlayerControl.KillSfx, false, 0.8f);
+            
+            foreach (var voteArea in MeetingHud.Instance.playerStates)
+            {
+                if(voteArea.TargetPlayerId == targetId)
+                {
+                    voteArea.SetDead(voteArea.DidReport, true);
+                    voteArea.Overlay.gameObject.SetActive(true);
+                }
+
+                if (voteArea.VotedFor == targetId) 
+                    voteArea.UnsetVote();
+            }
+
+            if (AmongUsClient.Instance.AmHost)
+                MeetingHud.Instance.CheckForEndVoting();
+            
+            if (target.PlayerControl == PlayerControl.LocalPlayer)
+                HudManager.Instance.KillOverlay.ShowKillAnimation(source.PlayerControl.Data, target.PlayerControl.Data);
         }
     }
+
 }

@@ -19,11 +19,15 @@ namespace MysteryOpertion.Model.Roles
         CurseMage,
 
         ArsonExpert,
+        Jester,
+        Spectator,
 
         Impostor,
         NoneFaceMan,
         SerialKiller,
-        CurseWarlock
+        CurseWarlock,
+        BloodyHunter,
+        Lurker
     }
 
     public enum RoleOrientation

@@ -69,7 +69,7 @@ namespace MysteryOpertion.Patches
             }
             if (ArsonExpertWin)
             {
-                GameNote.ArsonExpertWin = true;
+                GameNote.ArsonExpertWinner = player;
             }
                 
         }
@@ -102,7 +102,7 @@ namespace MysteryOpertion.Patches
         {
             if (player.PlayerControl != PlayerControl.LocalPlayer || !player.PlayerControl.Data.Role.IsImpostor) return;
 
-            if (player.MainRole is SerialKiller)
+            if (player.MainRole is SerialKiller || player.MainRole is BloodyHunter)
             {
                 __instance.KillButton.Hide();
             }

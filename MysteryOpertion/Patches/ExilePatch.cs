@@ -1,7 +1,10 @@
 ﻿using HarmonyLib;
+using MysteryOpertion.Model.Roles.ChaosRoles;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
+using static GameData;
 
 namespace MysteryOpertion.Patches
 {
@@ -13,7 +16,7 @@ namespace MysteryOpertion.Patches
         {
             public static void Postfix(ExileController __instance)
             {
-                WrapUpPostfix();
+                WrapUpPostfix(__instance.exiled);
             }
         }
 
@@ -22,14 +25,21 @@ namespace MysteryOpertion.Patches
         {
             public static void Postfix(ExileController __instance)
             {
-                WrapUpPostfix();
+                WrapUpPostfix(__instance.exiled);
             }
         }
 
-        private static void WrapUpPostfix()
+        private static void WrapUpPostfix(PlayerInfo exiled)
         {
             foreach (var player in Players.playerList)
             {
+                if (exiled is not null && player.PlayerControl.PlayerId == exiled.PlayerId && player.MainRole is Jester)
+                {
+                    Debug.Log("JesterWinner");
+                    GameNote.JesterWinner = player;
+                    break;
+                }
+
                 player.UpdateButtonsOnMeetingEnd();
             }
         }

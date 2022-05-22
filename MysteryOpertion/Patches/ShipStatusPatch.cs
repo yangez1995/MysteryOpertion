@@ -49,12 +49,24 @@ namespace MysteryOpertion.Patches
         {
             if (!GameData.Instance) return;
 
-            if(GameNote.ArsonExpertWin)
+            if(GameNote.ArsonExpertWinner is not null)
             {
                 __instance.enabled = false;
                 ShipStatus.RpcEndGame(0, false);
+                GameNote.ClearGameNote();
             }
-
+            if (GameNote.JesterWinner is not null)
+            {
+                __instance.enabled = false;
+                ShipStatus.RpcEndGame(0, false);
+                GameNote.ClearGameNote();
+            }
+            if (GameNote.SpectatorWinner is not null)
+            {
+                __instance.enabled = false;
+                ShipStatus.RpcEndGame(0, false);
+                GameNote.ClearGameNote();
+            }
             //CheckAndEndGameForTaskWin(__instance);
         }
 
