@@ -1,4 +1,5 @@
-﻿using MysteryOpertion.Model.Roles;
+﻿using MysteryOpertion.Model.MysteryItems;
+using MysteryOpertion.Model.Roles;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace MysteryOpertion.Model
         public int MaxSanityPoint { get; set; }
         public int SanityPoint { get; set; }
         public float SanityPointTimer { get; set; }
+        public Dictionary<ItemType, MysteryItem> ItemBag { get; set; }
 
         public Player(PlayerControl playerControl)
         {
@@ -21,6 +23,7 @@ namespace MysteryOpertion.Model
             this.MaxSanityPoint = 100;
             this.SanityPoint = 100;
             this.SanityPointTimer = 2;
+            this.ItemBag = new Dictionary<ItemType, MysteryItem>();
         }
 
         public string GetRoleName()
@@ -62,6 +65,12 @@ namespace MysteryOpertion.Model
         {
             var sum = SanityPoint + num;
             SanityPoint = sum > MaxSanityPoint ? MaxSanityPoint : sum;     
+        }
+
+        public void PickUpItem(ItemType type)
+        {
+            var item = ItemFactory.Produce(type, this);
+            ItemBag.Add(type, item);
         }
     }
 }

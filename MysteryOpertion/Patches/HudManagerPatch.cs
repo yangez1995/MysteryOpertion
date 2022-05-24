@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using MysteryOpertion.Model.Roles.ImpostorRoles;
+using MysteryOpertion.Model.MysteryItems;
 
 namespace MysteryOpertion.Patches
 {
@@ -20,14 +21,23 @@ namespace MysteryOpertion.Patches
             foreach(var player in Players.playerList)
             {
                 player.UpdateButtons();
-                if(player.PlayerControl == PlayerControl.LocalPlayer && player.MainRole is MechanicExpert)
-                    __instance.ImpostorVentButton.Show();
+                
 
+                VentButtonUpdate(__instance, player);
                 ArsonExpertUpdate(player);
                 CommonSanityPointUpdate(player);
                 SerialKillerSanityPointUpdate(player);
                 ImpostorKillButtonUpdate(player, __instance);
             }
+        }
+
+        private static void VentButtonUpdate(HudManager __instance, Player player)
+        {
+            if (player.PlayerControl == PlayerControl.LocalPlayer 
+                && (player.MainRole is MechanicExpert || player.ItemBag.ContainsKey(ItemType.WorkClothes)))
+                __instance.ImpostorVentButton.Show();
+            else
+                __instance.ImpostorVentButton.Hide();
         }
 
         private static void ArsonExpertUpdate(Player player)
