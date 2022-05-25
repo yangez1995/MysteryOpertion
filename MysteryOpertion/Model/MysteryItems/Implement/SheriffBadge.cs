@@ -8,7 +8,7 @@ namespace MysteryOpertion.Model.MysteryItems.Implement
     {
         public SheriffBadge(Player player) : base(player)
         {
-
+            this.Name =
         }
 
         public override void OnGet()

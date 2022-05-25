@@ -14,6 +14,7 @@ namespace MysteryOpertion.Model
         public int MaxSanityPoint { get; set; }
         public int SanityPoint { get; set; }
         public float SanityPointTimer { get; set; }
+        public float AssignItemTimer { get; set; }
         public Dictionary<ItemType, MysteryItem> ItemBag { get; set; }
 
         public Player(PlayerControl playerControl)
@@ -22,7 +23,8 @@ namespace MysteryOpertion.Model
             this.SubRoles = new List<Role>();
             this.MaxSanityPoint = 100;
             this.SanityPoint = 100;
-            this.SanityPointTimer = 2;
+            this.SanityPointTimer = 2f;
+            this.AssignItemTimer = 10f;
             this.ItemBag = new Dictionary<ItemType, MysteryItem>();
         }
 
@@ -67,10 +69,13 @@ namespace MysteryOpertion.Model
             SanityPoint = sum > MaxSanityPoint ? MaxSanityPoint : sum;     
         }
 
-        public void PickUpItem(ItemType type)
+        public bool PickUpItem(ItemType type)
         {
             var item = ItemFactory.Produce(type, this);
+            if(item is null) return false;
+
             ItemBag.Add(type, item);
+            return true;
         }
     }
 }

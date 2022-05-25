@@ -1,6 +1,7 @@
 ﻿using MysteryOpertion.Model;
 using MysteryOpertion.Model.Roles;
 using MysteryOpertion.Model.Roles.CrewmateRoles;
+using MysteryOpertion.Object;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -71,27 +72,28 @@ namespace MysteryOpertion
         public static TMP_Text centerMessage;
         public static void ShowCenterMessage(string message)
         {
-            HudManager instance = DestroyableSingleton<HudManager>.Instance;
-            var roomTracker = instance?.roomTracker;
-            if (roomTracker is null) return;
+            Tips.ShowTip(message);
+            //HudManager instance = DestroyableSingleton<HudManager>.Instance;
+            //var roomTracker = instance?.roomTracker;
+            //if (roomTracker is null) return;
 
-            var gameObject = UnityEngine.Object.Instantiate<GameObject>(roomTracker.gameObject);
-            gameObject.transform.SetParent(DestroyableSingleton<HudManager>.Instance.transform);
-            UnityEngine.Object.DestroyImmediate(gameObject.GetComponent<RoomTracker>());
-            gameObject.transform.localPosition = new Vector3(0f, -1.8f, gameObject.transform.localPosition.z);
-            gameObject.transform.localScale *= 1.5f;
+            //var gameObject = UnityEngine.Object.Instantiate<GameObject>(roomTracker.gameObject);
+            //gameObject.transform.SetParent(DestroyableSingleton<HudManager>.Instance.transform);
+            //UnityEngine.Object.DestroyImmediate(gameObject.GetComponent<RoomTracker>());
+            //gameObject.transform.localPosition = new Vector3(0f, -1.8f, gameObject.transform.localPosition.z);
+            //gameObject.transform.localScale *= 1.5f;
 
-            centerMessage = gameObject.GetComponent<TMP_Text>();
-            centerMessage.text = message;
+            //centerMessage = gameObject.GetComponent<TMP_Text>();
+            //centerMessage.text = message;
 
-            Action<float> action = (float p) =>
-            {
-                if (p == 0f)
-                {
-                    UnityEngine.Object.Destroy(centerMessage.gameObject);
-                }
-            };
-            DestroyableSingleton<HudManager>.Instance.StartCoroutine(Effects.Lerp(3, action));
+            //Action<float> action = (float p) =>
+            //{
+            //    if (p == 1f)
+            //    {
+            //        UnityEngine.Object.Destroy(centerMessage.gameObject);
+            //    }
+            //};
+            //DestroyableSingleton<HudManager>.Instance.StartCoroutine(Effects.Lerp(3, action));
         }
 
         public static void UseRepairButtonFixLights()

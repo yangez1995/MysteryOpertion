@@ -33,7 +33,7 @@ namespace MysteryOpertion
 
             var EavesdropperPriority = ConfigSelecterFactory.Produce("EavesdropperPriority", "窃听者", TextDictionary.RoleAssignPriority, parent: UserRecommendConfig, marginTop: true);
             
-            var JudgePriority = ConfigSelecterFactory.Produce(ConfigKeyDictionary.JudgePriority", "法官", TextDictionary.RoleAssignPriority, parent: UserRecommendConfig, marginTop: true);
+            var JudgePriority = ConfigSelecterFactory.Produce(ConfigKeyDictionary.JudgePriority, "法官", TextDictionary.RoleAssignPriority, parent: UserRecommendConfig, marginTop: true);
             ConfigSelecterFactory.Produce(ConfigKeyDictionary.JudgeSeeVoteColor, "法官能看到投票颜色", new string[] { "否", "是" }, parent: JudgePriority, defaultValue: 1);
 
             var LightPrayerPriority = ConfigSelecterFactory.Produce("LightPrayerPriority", "祈光人", TextDictionary.RoleAssignPriority, parent: UserRecommendConfig, marginTop: true);

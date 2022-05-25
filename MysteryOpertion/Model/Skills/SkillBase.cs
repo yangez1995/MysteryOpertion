@@ -6,12 +6,26 @@ namespace MysteryOpertion.Model.Skills
 {
     public interface Skill
     {
-
+        void OnGet();
+        void OnLose();
     }
 
-    public class SkillBase
+    public class SkillBase : Skill
     {
-        public SkillBase()
+        public Player Owner { get; set; }
+
+        public SkillBase(Player player)
+        {
+            this.Owner = player;
+            OnGet();
+        }
+
+        public virtual void OnGet()
+        {
+
+        }
+
+        public virtual void OnLose()
         {
 
         }

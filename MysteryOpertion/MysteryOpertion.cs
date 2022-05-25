@@ -79,7 +79,7 @@ public static class DebugManager
 
         if (Input.GetKeyDown(KeyCode.Alpha8))
         {
-            ToolBox.ReSetPlayerTask(PlayerControl.LocalPlayer.PlayerId, 1, 1, 1);
+            RPCFunctions.ShowCenterMessage("test");
         }
     }
 

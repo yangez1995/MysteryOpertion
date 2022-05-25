@@ -7,6 +7,7 @@ namespace MysteryOpertion.Model.MysteryItems
     public enum ItemType
     {
         SheriffBadge,
-        WorkClothes
+        WorkClothes,
+        CoronerScalpel
     }
 }

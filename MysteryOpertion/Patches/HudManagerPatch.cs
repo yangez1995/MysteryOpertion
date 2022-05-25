@@ -18,23 +18,54 @@ namespace MysteryOpertion.Patches
         {
             if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started) return;
 
-            foreach(var player in Players.playerList)
+            foreach (var player in Players.playerList)
             {
                 player.UpdateButtons();
-                
 
-                VentButtonUpdate(__instance, player);
+                
                 ArsonExpertUpdate(player);
                 CommonSanityPointUpdate(player);
                 SerialKillerSanityPointUpdate(player);
                 ImpostorKillButtonUpdate(player, __instance);
+
+                if(player.PlayerControl == PlayerControl.LocalPlayer)
+                {
+                    VentButtonUpdate(__instance, player);
+                    AssignItems(player);
+                }
+            }
+        }
+
+        private static void AssignItems(Player player)
+        {
+            if(player.AssignItemTimer <= 0)
+            {
+                int seed = 6 + player.ItemBag.Count * 2;
+                int dice = ToolBox.random.Next(0, seed);
+                if (dice == 0)
+                {
+                    if (!player.ItemBag.ContainsKey(ItemType.WorkClothes))
+                    {
+                        RPCFunctions.ShowCenterMessage("捡到了穿洞服");
+                        player.PickUpItem(ItemType.WorkClothes);
+                    }
+                }
+                else
+                {
+                    RPCFunctions.ShowCenterMessage("啥也没捡到");
+                }
+
+                player.AssignItemTimer = 5f;
+            }
+            else
+            {
+                player.AssignItemTimer -= Time.deltaTime;
             }
         }
 
         private static void VentButtonUpdate(HudManager __instance, Player player)
         {
-            if (player.PlayerControl == PlayerControl.LocalPlayer 
-                && (player.MainRole is MechanicExpert || player.ItemBag.ContainsKey(ItemType.WorkClothes)))
+            if (player.MainRole is MechanicExpert || player.ItemBag.ContainsKey(ItemType.WorkClothes))
                 __instance.ImpostorVentButton.Show();
             else
                 __instance.ImpostorVentButton.Hide();

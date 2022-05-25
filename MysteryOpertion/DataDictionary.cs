@@ -53,6 +53,13 @@ namespace MysteryOpertion
         public const string DivineButtonText = "占卜";
     }
 
+    public static class MysteryItemDictionary
+    {
+        public const string SheriffBadge = "警徽";
+        public const string WorkClothes = "工作服";
+        public const string CoronerScalpel = "验尸小刀";
+    }
+
     public static class TaskDictionary
     {
         public static string GetTaskName(TaskTypes type)

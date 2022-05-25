@@ -10,7 +10,5 @@ namespace MysteryOpertion.Model.MysteryItems.Implement
         {
 
         }
-
-        public override void OnGet() {}
     }
 }

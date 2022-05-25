@@ -16,17 +16,5 @@ namespace MysteryOpertion.Model.Roles.CrewmateRoles
             this.maxSanityPoint = 50;
             this.initialSanityPoint = 50;
         }
-
-        public void SendCoronerReport()
-        {
-            foreach (var record in GameNote.DeathRecords)
-            {
-                if (record.IsDeadInCurrentRound)
-                {
-                    string msg = TextDictionary.GenerateCoronerReport(record);
-                    DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player.PlayerControl, msg);
-                }
-            }
-        }
     }
 }

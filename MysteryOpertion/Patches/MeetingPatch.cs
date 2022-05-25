@@ -12,6 +12,7 @@ using Hazel;
 using MysteryOpertion.Model.Roles.ChaosRoles;
 using TMPro;
 using MysteryOpertion.Model;
+using MysteryOpertion.Model.MysteryItems;
 
 namespace MysteryOpertion.Patches
 {
@@ -102,9 +103,30 @@ namespace MysteryOpertion.Patches
             foreach (var player in Players.playerList)
             {
                 if (player.MainRole is Coroner)
-                    ((Coroner)player.MainRole).SendCoronerReport();
+                {
+                    SendCoronerReport(player);
+                }
+                else if (player.ItemBag.ContainsKey(ItemType.CoronerScalpel))
+                {
+                    SendCoronerReport(player);
+                    player.ItemBag[ItemType.CoronerScalpel].OnUse();
+                }
                 else if (player.MainRole is Eavesdropper)
+                {
                     ((Eavesdropper)player.MainRole).SendEavesdropperMessage();
+                }
+            }
+        }
+
+        private static void SendCoronerReport(Player player)
+        {
+            foreach (var record in GameNote.DeathRecords)
+            {
+                if (record.IsDeadInCurrentRound)
+                {
+                    string msg = TextDictionary.GenerateCoronerReport(record);
+                    DestroyableSingleton<HudManager>.Instance.Chat.AddChat(player.PlayerControl, msg);
+                }
             }
         }
 

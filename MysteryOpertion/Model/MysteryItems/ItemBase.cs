@@ -7,9 +7,10 @@ namespace MysteryOpertion.Model.MysteryItems
     public interface MysteryItem
     {
         public void OnGet();
+        public void OnUse();
     }
 
-    public abstract class ItemBase : MysteryItem
+    public class ItemBase : MysteryItem
     {
         public string Name { get; set; }
         public ItemType Type { get; set; }
@@ -23,7 +24,7 @@ namespace MysteryOpertion.Model.MysteryItems
             OnGet();
         }
 
-        public abstract void OnGet();
+        public virtual void OnGet() { }
 
         public virtual void OnUse()
         {
